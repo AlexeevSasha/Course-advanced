@@ -11,7 +11,7 @@ export const PlayerInfo:FC = () => {
         <PlayerWrapper>
            <ImgLogo><img  src={player} alt='logo'/></ImgLogo>
             <Content>
-                <Name>Greg Whittington <Number>#22</Number></Name>
+                <Name>Greg Whittington<Number>#22</Number></Name>
                 <Flex>
                     <Group>
                         <div>
