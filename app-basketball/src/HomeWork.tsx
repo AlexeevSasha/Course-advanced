@@ -6,6 +6,7 @@ import {ButtonCancel} from "./common/components/Button/ButtonCancel";
 import {TeamInfo} from "./modules/teams/components/TeamInfo/TeamInfo";
 import styled from "styled-components";
 import {PlayerInfo} from "./modules/players/components/PlayerInfo/PlayerInfo";
+import {Search} from "./common/components/Input/Search";
 
 export const HomeWork : FC = () => {
   return (
@@ -13,6 +14,7 @@ export const HomeWork : FC = () => {
           <Input />
           <InputCheckbox />
           <div style={{display: 'grid', gap: '24px'}}>
+          <Search/>
           <Button >Регистрация</Button>
               <Button btnAdd>Add +</Button>
               <ButtonCancel />
