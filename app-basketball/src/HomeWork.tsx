@@ -7,6 +7,8 @@ import {TeamInfo} from "./modules/teams/components/TeamInfo/TeamInfo";
 import styled from "styled-components";
 import {PlayerInfo} from "./modules/players/components/PlayerInfo/PlayerInfo";
 import {Search} from "./common/components/Input/Search";
+import {Header} from "./common/components/Header/Header";
+import {NavMenu} from "./common/components/NavMenu/NavMenu";
 
 export const HomeWork : FC = () => {
   return (
@@ -20,6 +22,8 @@ export const HomeWork : FC = () => {
               <ButtonCancel />
           </div>
               <Wrapper >
+                  <Header/>
+                  <NavMenu/>
               <TeamInfo/>
                   <PlayerInfo/>
               </Wrapper>
