@@ -4,12 +4,12 @@ import logo from '../../../../assets/images/teamLogo.png'
 import styled from "styled-components";
 
 
-export const TeamInfo:FC = () => {
+export const TeamInfo :FC = () => {
     return (
         <div>
         <HeaderCardInfo/>
         <TeamWrapper>
-           <ImgLogo><img  src={logo}/></ImgLogo>
+           <ImgLogo><img src={logo}/></ImgLogo>
             <Content>
                 <Name>Denver Nuggets</Name>
                 <Flex>
