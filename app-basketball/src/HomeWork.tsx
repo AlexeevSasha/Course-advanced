@@ -11,6 +11,7 @@ import {Header} from "./common/components/Header/Header";
 import {NavMenu} from "./common/components/NavMenu/NavMenu";
 import {PlayerCard} from './modules/players/components/PlayerCard/PlayerCard'
 import {TeamCard} from "./modules/teams/components/TeamCard/TeamCard";
+import {Pagination} from "./common/components/Pagination/Pagination";
 
 export const HomeWork : FC = () => {
   return (
@@ -18,6 +19,7 @@ export const HomeWork : FC = () => {
           <Input />
           <InputCheckbox />
           <div style={{display: 'grid', gap: '24px'}}>
+              <Pagination pageCount={10} initialPage={1}/>
           <Search/>
           <Button >Регистрация</Button>
               <Button btnAdd>Add +</Button>
