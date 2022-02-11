@@ -28,10 +28,8 @@ export const HomeWork : FC = () => {
                   <NavMenu/>
               <TeamInfo/>
                   <PlayerInfo/>
-                  <div style={{display: 'grid',gridTemplateColumns: 'repeat(2, 1fr)'}}>
                   <PlayerCard/>
                   <TeamCard/>
-                  </div>
               </Wrapper>
       </div>
   );
