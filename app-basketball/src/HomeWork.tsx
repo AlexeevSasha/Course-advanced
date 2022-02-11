@@ -9,6 +9,8 @@ import {PlayerInfo} from "./modules/players/components/PlayerInfo/PlayerInfo";
 import {Search} from "./common/components/Input/Search";
 import {Header} from "./common/components/Header/Header";
 import {NavMenu} from "./common/components/NavMenu/NavMenu";
+import {PlayerCard} from './modules/players/components/PlayerCard/PlayerCard'
+import {TeamCard} from "./modules/teams/components/TeamCard/TeamCard";
 
 export const HomeWork : FC = () => {
   return (
@@ -26,6 +28,10 @@ export const HomeWork : FC = () => {
                   <NavMenu/>
               <TeamInfo/>
                   <PlayerInfo/>
+                  <div style={{display: 'grid',gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                  <PlayerCard/>
+                  <TeamCard/>
+                  </div>
               </Wrapper>
       </div>
   );
