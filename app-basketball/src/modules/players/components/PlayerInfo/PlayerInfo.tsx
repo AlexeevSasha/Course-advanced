@@ -11,33 +11,33 @@ export const PlayerInfo:FC = () => {
         <PlayerWrapper>
            <ImgLogo><img  src={player} alt='logo'/></ImgLogo>
             <Content>
-                <Name>Greg Whittington<Number>#22</Number></Name>
+                <Name>Greg Whittington <Number>#22</Number></Name>
                 <Flex>
                     <Group>
-                        <div>
+                        <Wrapper>
                             <Title>Position</Title>
                             <Text>Forward</Text>
-                        </div>
-                        <div>
+                        </Wrapper>
+                        <Wrapper>
                             <Title>Team</Title>
                             <Text>Denver Nuggets</Text>
-                        </div>
+                        </Wrapper>
                     </Group>
                     <Group>
-                        <div>
+                        <Wrapper>
                             <Title>Height</Title>
                             <Text>206 cm</Text>
-                            </div>
-                         <div>
+                            </Wrapper>
+                         <Wrapper>
                              <Title>Weight</Title>
                               <Text>95 kg</Text>
-                         </div>
+                         </Wrapper>
                     </Group>
                     <Group>
 
-                        <div> <Title>Age</Title>
+                        <Wrapper> <Title>Age</Title>
                             <Text>27</Text>
-                        </div>
+                        </Wrapper>
 
                     </Group>
                 </Flex>
@@ -48,7 +48,7 @@ export const PlayerInfo:FC = () => {
 }
 
 const PlayerWrapper = styled.div`
-  display: flex;  
+  display: flex;
   width: 100%;
   background: linear-gradient(276.45deg, #393939 0%, #707070 100.28%);
   border-radius: 0 0 10px 10px;
@@ -60,25 +60,33 @@ const PlayerWrapper = styled.div`
   }
 `
 const ImgLogo = styled.div`
-  max-width: 600px;
+  max-width: 500px;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-top: 100px;
+  overflow: hidden;
+  @media  (max-width: 1000px) {
+    max-width: 350px;
+  }
   img {
-    height: 100%;
+    width: 500px;
+    height: 400px;
     object-fit: cover;
-    @media  (max-width: 768px) {
+    @media  (max-width: 1000px) {
+      width: 300px;
+      height: 250px;
+    }
+    @media  (max-width: 700px) {
       margin: 48px auto;
-      width: 150px;
+      width: 250px;
       height: 150px;
     }
   }
 `
 const Content = styled.div`
-  margin: 40px 0 0;
+  margin: 40px 20px 0 0;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -94,6 +102,10 @@ const Name = styled.div`
   font-size: 36px;
   line-height: 49px;
   margin-bottom: 40px;
+  @media  (max-width: 1000px) {
+    font-size: 30px;
+    line-height: 35px;
+  }
   @media (max-width: 500px) {
     font-size: 20px;
     line-height: 25px;
@@ -105,20 +117,36 @@ const Number = styled.span`
 const Flex = styled.div`
   display: flex;
   flex-direction: column;
+
 `
 const Group = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 40px;
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(1, 1fr);
+    align-items: center;
+    justify-items: center;
+  }
+`
+const Wrapper = styled.div`
+  margin-right: 80px;
+  @media (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
 `
 
 const Title = styled.div`
   font-weight: 800;
   font-size: 24px;
   line-height: 33px;
+
   @media (max-width: 500px) {
     font-size: 17px;
     line-height: 20px;
+    margin: 0;
   }
 
 `
