@@ -43,6 +43,9 @@ transition: all .2s linear;
 ${({ btnAdd }) => btnAdd && `
     max-width: 104px;
     width: 100%;
+    @media (max-width: 768px) {
+    max-width: none;
+  }
 `}
 }
 `
