@@ -60,7 +60,7 @@ const PlayerWrapper = styled.div`
   }
 `
 const ImgLogo = styled.div`
-  max-width: 500px;
+  max-width: 750px;
   width: 100%;
   height: 100%;
   display: flex;
