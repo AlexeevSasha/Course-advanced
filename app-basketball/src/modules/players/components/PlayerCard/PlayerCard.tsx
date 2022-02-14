@@ -3,16 +3,15 @@ import styled from "styled-components";
 import player from '../../../../assets/images/player.png'
 
 
-
 export const PlayerCard: FC = () => {
     return (
-        <Flex >
-            <Logo >
-              <Img src={player}  alt="" />
+        <Flex>
+            <Logo>
+                <Img src={player} alt=""/>
             </Logo>
-            <CartItem >
-                <Name>Jaylen Adams<Number >#10</Number></Name>
-                <Teams >Portland trail blazers</Teams>
+            <CartItem>
+                <Name>Jaylen Adams<Number>#10</Number></Name>
+                <Teams>Portland trail blazers</Teams>
             </CartItem>
         </Flex>
     )
@@ -30,7 +29,7 @@ const Logo = styled.div`
   align-items: flex-end;
   background: linear-gradient(121.57deg, #707070 1.62%, #393939 81.02%);
   border-radius: 4px 4px 0 0;
-  max-width: 365px;
+  //max-width: 365px;
   width: 100%;
   height: 280px;
   overflow: hidden;
@@ -40,19 +39,19 @@ const Logo = styled.div`
 `
 
 const Img = styled.img`
-  width:90%;
+  width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   @media (max-width: 400px) {
-  width: 150px;
+    width: 150px;
     height: 120px;
-}
+  }
 `
 const CartItem = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  max-width: 365px;
+  //max-width: 365px;
   width: 100%;
   background-color: ${({theme}) => theme.colors.darkGrey};
   padding: 24px 0;
