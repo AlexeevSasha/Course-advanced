@@ -1,36 +1,35 @@
-import React, { FC } from 'react';
-import Select, { StylesConfig } from 'react-select';
+import React, {FC} from 'react';
+import Select, {StylesConfig} from 'react-select';
 import styled from "styled-components";
-
-
-
 
 
 export interface IOption {
     value: string | number;
-    label: string ;
+    label: string;
 }
 
 
 export interface ISelectProps {
     options: IOption[]
     isMulti?: boolean;
-    pagesSize?:boolean;
+    pagesSize?: boolean;
     defaultValue?: IOption;
-    onChange? : any;
+    onChange?: any;
     menuPlacement?: 'top';
     value?: IOption;
     error?: string;
-    width?: string;
 }
 
-export const Selects: FC<ISelectProps> = ( {
-                                                    options,
-                                                    isMulti ,
-                                                    pagesSize,
-                                                    defaultValue,
-                                                    onChange,
-                                                    menuPlacement, value, error,...rest}) => {
+export const Selects: FC<ISelectProps> = ({
+                                              options,
+                                              isMulti,
+                                              pagesSize,
+                                              defaultValue,
+                                              onChange,
+                                              menuPlacement,
+                                              value,
+                                              error, ...rest
+                                          }) => {
     return (
         <div>
             <Select
@@ -44,27 +43,27 @@ export const Selects: FC<ISelectProps> = ( {
                 onChange={onChange}
                 {...rest}
             />
-            {error ? <ErrorStyle >{error}</ErrorStyle> : ''}
+            {error ? <ErrorStyle>{error}</ErrorStyle> : ''}
         </div>
     );
 };
 
 const ErrorStyle = styled.p`
-font-size: 12px;
-font-weight: 500;
-color: ${({ theme }) => theme.colors.lightestRed};
-margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: ${({theme}) => theme.colors.lightestRed};
+  margin-top: 4px;
 `
 
 export const customStyles: StylesConfig<IOption> = {
-    container: (styles, ) => ({
+    container: (styles,) => ({
         ...styles,
-        maxWidth: '365px',
+        maxWidth: '768px',
         width: '100%',
     }),
-    control: (styles, { isFocused, isMulti }) => ({
+    control: (styles, {isFocused, isMulti}) => ({
         ...styles,
-        backgroundColor:  isMulti ? "white" : '#F6F6F6',
+        backgroundColor: isMulti ? "white" : '#F6F6F6',
         borderColor: "#D1D1D1",
         cursor: "pointer",
         padding: `1px`,
@@ -76,7 +75,7 @@ export const customStyles: StylesConfig<IOption> = {
             boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.25)'
         },
     }),
-    option: (styles, { isSelected }) => ({
+    option: (styles, {isSelected}) => ({
         ...styles,
         backgroundColor: isSelected ? "#C60E2E" : '',
         color: isSelected ? "#FFFFFF" : "#9C9C9C",
