@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import styled from "styled-components";
-import editIcon from '../../../assets/icons/create.svg'
-import deleteIcon from '../../../assets/icons/delete.svg';
+import {CreateIcon, DeleteIcon} from "../";
+
 
 
 
@@ -13,8 +13,8 @@ export const HeaderCardInfo:FC = () => {
                 <BreadCrumbsWrapper>Bread <SpanStyle>/</SpanStyle> Crumbs</BreadCrumbsWrapper>
                 <WrapperButton>
                     <Button>
-                      <Img src={editIcon} />
-                        <Img src={deleteIcon} />
+                        <ImgButton><CreateIcon/></ImgButton>
+                        <ImgButton><DeleteIcon/></ImgButton>
                     </Button>
                 </WrapperButton>
             </HeaderCard>
@@ -63,13 +63,23 @@ const Button = styled.button`
     background: transparent;
     border: none;
 `
-const Img = styled.img`
+const ImgButton = styled.button`
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 24px;
+  margin-left: 24px;
+  & > svg {
     width: 24px;
-    margin-left: 24px; 
-   cursor: pointer;
+    height: 24px;
+  }
   @media (max-width: 768px) {
     margin-left: 16px;
     width: 20px;
+    & > svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 `
 
