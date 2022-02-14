@@ -41,7 +41,7 @@ const ReactPaginationStyle = styled(ReactPaginate) `
     margin: 0 8px;
     width: 40px;
     height: 40px;
-    @media (max-width: 400px) {
+    @media ${({theme}) => theme.media._768} {
       width: 30px;
       height: 30px;
       margin: 0 4px;
@@ -58,7 +58,7 @@ const ReactPaginationStyle = styled(ReactPaginate) `
     border-radius: 4px;
     border-color: transparent;
     cursor: pointer;
-    @media (max-width: 400px)  {
+    @media ${({theme}) => theme.media._768}  {
       width: 30px;
       height: 30px;
     }
