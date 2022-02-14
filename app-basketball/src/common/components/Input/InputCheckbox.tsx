@@ -1,5 +1,5 @@
 import React, {FC, InputHTMLAttributes} from "react";
-import arrowChek from "../../../assets/icons/arrow-chek.svg";
+import ChekMark from "../../../assets/icons/arrow-chek.svg";
 import styled from "styled-components";
 
 interface IInputCheckbox extends InputHTMLAttributes<HTMLInputElement>{
@@ -7,21 +7,21 @@ interface IInputCheckbox extends InputHTMLAttributes<HTMLInputElement>{
 }
 export const InputCheckbox :FC<IInputCheckbox> = (({error,...attr})  => {
     return (
-        <InputCheckboxWrapper>
+        <div>
             <FlexCheckbox >
-                <InputCheckboxStyle id="check" type='checkbox' bg={arrowChek} error={error}  {...attr}/>
-                <LabelCheckbox htmlFor='check' >Text</LabelCheckbox>
+                <InputCheckboxStyle id="check" type='checkbox' bg={ChekMark} error={error}  {...attr}/>
+                <LabelCheckbox htmlFor='check' >I accept the agreement</LabelCheckbox>
             </FlexCheckbox>
+
             {error ? <ErrorStyle >You must be accept the agreement.</ErrorStyle> : ''}
-        </InputCheckboxWrapper>
+        </div>
     )
 })
-const InputCheckboxWrapper = styled.div`
-  margin-bottom: 24px;
-`
+
 const FlexCheckbox = styled.div`
    display: flex;
   align-items: center;
+
 `
 const InputCheckboxStyle = styled.input<{bg: string, error?:  boolean}>`
   appearance: none;
@@ -36,6 +36,7 @@ const InputCheckboxStyle = styled.input<{bg: string, error?:  boolean}>`
   align-items: center;
   justify-content: center;
   &:after {
+    margin-left: 1px;
     display: none;
     content: ' ';
     background-image: url(${({ bg }) => bg });
@@ -75,6 +76,7 @@ const InputCheckboxStyle = styled.input<{bg: string, error?:  boolean}>`
 const LabelCheckbox = styled.label`
 color: ${({ theme }) => theme.colors.grey};
 font-size: 14px;margin-left: 8px;
+  cursor: pointer;
 `
 const ErrorStyle = styled.p`
 font-size: 12px;
