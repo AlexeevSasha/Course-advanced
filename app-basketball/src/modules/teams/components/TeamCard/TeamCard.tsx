@@ -3,16 +3,15 @@ import styled from "styled-components";
 import team from '../../../../assets/images/teamLogo.png'
 
 
-
 export const TeamCard: FC = () => {
     return (
-        <Flex >
-            <Logo >
-                <Img src={team}   />
+        <Flex>
+            <Logo>
+                <Img src={team}/>
             </Logo>
-            <CartItem >
+            <CartItem>
                 <Name>Portland trail blazers</Name>
-                <Yarn >Year of foundation: 1970</Yarn>
+                <Yarn>Year of foundation: 1970</Yarn>
             </CartItem>
         </Flex>
     )
@@ -31,7 +30,7 @@ const Logo = styled.div`
   align-items: center;
   background: linear-gradient(121.57deg, #707070 1.62%, #393939 81.02%);
   border-radius: 4px 4px 0 0;
-  max-width: 365px;
+  //max-width: 365px;
   width: 100%;
   height: 280px;
   @media (max-width: 400px) {
@@ -54,7 +53,7 @@ const CartItem = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: ${({theme}) => theme.colors.darkGrey};
-  max-width: 365px;
+  //max-width: 365px;
   width: 100%;
   padding: 24px 0;
   border-radius: 0 0 4px 4px;
