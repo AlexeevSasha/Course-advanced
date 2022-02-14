@@ -44,7 +44,7 @@ ${({ btnAdd }) => btnAdd && `
     max-width: 104px;
     width: 100%;
     @media (max-width: 768px) {
-    max-width: none;
+    max-width: none
   }
 `}
 }
