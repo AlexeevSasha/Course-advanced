@@ -12,6 +12,11 @@ export const theme: DefaultTheme = {
         lightestRed: "#FF768E",
         lightBlue: "#F5FBFF",
         blue: "#344472",
+    },
+    media: {
+        _480: "(max-width: 480px)",
+        _768: "(max-width: 768px)",
+        _980: "(max-width: 980px)",
     }
 };
 
@@ -29,6 +34,10 @@ declare module 'styled-components' {
             lightestRed: string;
             lightBlue: string;
             blue: string;
+        },  media: {
+            _480: "(max-width: 480px)",
+            _768: "(max-width: 768px)",
+            _980: "(max-width: 980px)"
         }
     }
 }
