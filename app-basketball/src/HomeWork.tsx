@@ -1,55 +1,94 @@
-import React, {FC } from 'react';
-import {Input} from "./common/components/Input/Input";
-import {InputCheckbox} from "./common/components/Input/InputCheckbox";
-import {Button} from "./common/components/Button/Button";
-import {ButtonCancel} from "./common/components/Button/ButtonCancel";
-import {TeamInfo} from "./modules/teams/components/TeamInfo/TeamInfo";
+import React, {FC} from 'react'
 import styled from "styled-components";
-import {PlayerInfo} from "./modules/players/components/PlayerInfo/PlayerInfo";
-import {Search} from "./common/components/Input/Search";
-import {Header} from "./common/components/Header/Header";
-import {NavMenu} from "./common/components/NavMenu/NavMenu";
-import {PlayerCard} from './modules/players/components/PlayerCard/PlayerCard'
-import {TeamCard} from "./modules/teams/components/TeamCard/TeamCard";
-import {Pagination} from "./common/components/Pagination/Pagination";
-import {Selects} from "./common/components/Select/Select";
-import {optionsPosition, optionsSize} from "./common/components/Select/data";
+import {Link} from "react-router-dom";
 
 
-export const HomeWork : FC = () => {
-  return (
-      <div style={{margin: '30px'}}>
-          <Input />
-          <InputCheckbox />
-          <div style={{display: 'grid', gap: '24px'}}>
-              <Pagination pageCount={10} initialPage={1}/>
-              <Selects options={optionsPosition} />
-              <Selects options={optionsPosition} isMulti />
-              <div style={{maxWidth: '90px'}}>  <Selects options={optionsSize} menuPlacement='top' defaultValue={optionsSize[0]}/></div>
-          <Search/>
-          <Button >Регистрация</Button>
-              <Button btnAdd>Add +</Button>
-              <ButtonCancel />
-          </div>
-              <Wrapper >
-                  <Header/>
-                  <NavMenu/>
-              <TeamInfo/>
-                  <PlayerInfo/>
-                  <PlayerCard/>
-                  <TeamCard/>
-              </Wrapper>
-      </div>
-  );
+export const HomeWork: FC = () => {
+    return (
+        <Wrapper>
+            <Title>HomeWork 14</Title>
+            <div style={{fontSize: '30px'}}>pages</div>
+            <Pages>
+                <Card to='/login' target="_blank">
+                   <LinkWrapper >Sing On</LinkWrapper>
+                </Card>
+                <Card to='/registration' target="_blank">
+                    <LinkWrapper >Sing Up</LinkWrapper>
+                </Card>
+                <Card  to='*' target="_blank">
+                    <LinkWrapper>404</LinkWrapper>
+                </Card>
+                <Card to='/teams' target="_blank">
+                    <LinkWrapper >Teams</LinkWrapper>
+                </Card>
+                <Card to='/teams/1' target="_blank">
+                    <LinkWrapper >Info Team</LinkWrapper>
+                </Card>
+                <Card to='/teams/addTeam' target="_blank">
+                    <LinkWrapper >Add Team</LinkWrapper>
+                </Card>
+                <Card  to='/players' target="_blank">
+                    <LinkWrapper>Players</LinkWrapper>
+                </Card>
+                <Card to='/players/1' target="_blank">
+                    <LinkWrapper >Info Player</LinkWrapper>
+                </Card>
+                <Card to='/players/addPlayer' target="_blank">
+                    <LinkWrapper >Add Player</LinkWrapper>
+                </Card>
+
+            </Pages>
+
+        </Wrapper>
+    );
 }
 
-const Wrapper = styled.div`
-    display: grid;
-    gap: 24px;
-   margin-top: 24px;
-  max-width: 1200px;
-  width: 100%;
+const LinkWrapper = styled.h1`
+  color: grey;
+  font-size: 24px;
 `
+
+const Card = styled(Link)`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    width: 200px;
+    height: 100px;
+    border-radius: 6px;
+    border: 1px solid grey;
+   
+  :hover {
+    box-shadow: 0 1px 10px rgba(209,209,209,0.5);
+    border: none;
+  }
+`
+
+const Pages = styled.div`
+ margin: 50px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 24px;
+`
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+`
+
+const Title = styled.h1`
+  color: ${({theme}) => theme.colors.darkGrey};
+  font-size: 30px;
+  padding-top: 25px;
+`
+
+
 
 
 
