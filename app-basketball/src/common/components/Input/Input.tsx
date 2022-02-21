@@ -64,6 +64,21 @@ const InputStyle = styled.input<IInput>`
   padding: 0 30px 0 12px;
   font-size: 14px;
 
+  ${({ date }) => date && `
+      padding: 0 5px 0 10px;
+     font-family: inherit;
+     font-size: 12px;
+     &::-webkit-datetime-edit-fields-wrapper { color: #707070; }
+     &::-webkit-calendar-picker-indicator {
+     filter: invert(30%);
+     padding: 0;
+     margin: 0;
+     }
+     &::-webkit-datetime-edit-year-field {
+     margin: 0
+     }
+`}
+
   &:hover {
     background-color: ${({theme}) => theme.colors.lightestGrey};
     border: 1px solid ${({theme}) => theme.colors.lightestGrey};
@@ -74,7 +89,6 @@ const InputStyle = styled.input<IInput>`
     border: 1px solid ${({theme}) => theme.colors.lightestGrey1};
     box-shadow: 0 0 5px #D9D9D9;
   }
-
   &:disabled {
     pointer-events: none;
     color: ${({theme}) => theme.colors.lightestGrey};
