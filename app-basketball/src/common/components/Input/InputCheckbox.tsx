@@ -1,22 +1,30 @@
-import React, {FC, InputHTMLAttributes} from "react";
+import React, {FC, useCallback, ChangeEvent} from "react";
 import ChekMark from "../../../assets/icons/arrow-chek.svg";
 import styled from "styled-components";
 
-interface IInputCheckbox extends InputHTMLAttributes<HTMLInputElement>{
-    error?:  boolean
+interface IInputCheckbox {
+    error?:  boolean;
+    value: boolean;
+    onChange: (value : boolean, event:ChangeEvent<HTMLInputElement>) => void;
 }
-export const InputCheckbox :FC<IInputCheckbox> = (({error,...attr})  => {
+export const InputCheckbox :FC<IInputCheckbox> = ({error,value, onChange,...attr})  => {
+    const changeValue = useCallback(
+        (event : ChangeEvent<HTMLInputElement>) => {
+            onChange(!value, event);
+        },
+        [value, onChange]
+    );
     return (
         <div>
             <FlexCheckbox >
-                <InputCheckboxStyle id="check" type='checkbox' bg={ChekMark} error={error}  {...attr}/>
+                <InputCheckboxStyle id="check" type='checkbox' bg={ChekMark} error={error} onChange={changeValue} checked={value} {...attr}/>
                 <LabelCheckbox htmlFor='check' >I accept the agreement</LabelCheckbox>
             </FlexCheckbox>
 
             {error ? <ErrorStyle >You must be accept the agreement.</ErrorStyle> : ''}
         </div>
     )
-})
+}
 
 const FlexCheckbox = styled.div`
    display: flex;
