@@ -1,32 +1,33 @@
-import React, {FC, InputHTMLAttributes} from "react";
+import React, {FC, InputHTMLAttributes, forwardRef} from "react";
 import {EyeIcon, CloseEyeIcon} from "../";
 import styled from "styled-components";
 
 
-interface IInput extends InputHTMLAttributes<HTMLInputElement> {
+interface IInput extends React.ComponentPropsWithoutRef<"input"> {
     error?: string;
     type?: string;
     title?: string;
     date?: boolean;
+    id: string;
 }
 
-export const Input: FC<IInput> = (({title, type = 'text', error, date, ...attr}) => {
+export const Input = forwardRef<HTMLInputElement, IInput>((({title, type = 'text', error, date, id,...attr}, ref) => {
     const [typeInput, setTypeInput] = React.useState<string>(type);
     const showHide = () => {
         setTypeInput(typeInput === "password" ? "text" : "password");
     }
     return (
         <div>
-            <LabelStyle>{title}</LabelStyle>
+            <LabelStyle htmlFor={id}>{title}</LabelStyle>
             <Container>
-                <InputStyle type={typeInput} error={error} {...attr} date={date}/>
+                <InputStyle type={typeInput} error={error} {...attr} date={date} id={id} ref={ref}/>
                 {type === 'password' &&
                     <IconStyle onClick={showHide}>{typeInput === 'password' ? <CloseEyeIcon/> : <EyeIcon/>}</IconStyle>}
             </Container>
             {error ? <ErrorStyle>{error}</ErrorStyle> : ''}
         </div>
     )
-})
+}))
 
 const IconStyle = styled.div`
   position: absolute;
