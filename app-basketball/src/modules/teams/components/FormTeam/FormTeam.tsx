@@ -12,10 +12,10 @@ export const FormTeam: FC = () => {
             <InputFile />
             </InputFileContainer>
             <FormRight >
-                <Input title="Name"/>
-                <Input title="Division"/>
-                <Input title="Conference" />
-                <Input title="Year of foundation" type="number" min="1850" max="2022"  />
+                <Input id='nameTeam' title="Name"/>
+                <Input id='Division'  title="Division"/>
+                <Input id='Conference'  title="Conference" />
+                <Input id='Year'  title="Year of foundation" type="number" min="1850" max="2022"  />
                 <BtnWrapper  >
                    <ButtonCancel type='button' />
                     <Button type='submit'>Save</Button>
