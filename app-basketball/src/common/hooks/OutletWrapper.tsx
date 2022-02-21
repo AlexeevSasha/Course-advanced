@@ -39,10 +39,12 @@ const RightDiv = styled.div<{ toggle?: boolean }>`
 `
 
 const Content = styled.div`
-  margin: 32px 80px 0;
-  height: 100vh;
+  padding: 32px 80px 0;
+  margin: 0 auto;
+  max-width: 1300px;
+  width: 100%;
   @media ${({theme}) => theme.media._768} {
-    margin: 16px 12px 0;
+    padding: 16px 12px 0;
   }
 `
 const Wrapper = styled.div`
