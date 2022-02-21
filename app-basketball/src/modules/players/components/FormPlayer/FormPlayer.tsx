@@ -13,20 +13,14 @@ export const FormPlayer: FC = () => {
                     <InputFile/>
                 </InputFileContainer>
                 <FormRight>
-                    <Input title="Name"/>
-                    <div>
-                        <SelectTitle>Position</SelectTitle>
-                        <Selects options={optionsPosition}/>
-                    </div>
-                    <div>
-                        <SelectTitle>Teams</SelectTitle>
-                        <Selects options={[]}/>
-                    </div>
+                    <Input id='namePlayer' title="Name"/>
+                        <Selects label='Position' id='PositionSelect' options={optionsPosition}/>
+                        <Selects label='Teams' id='TeamsSelect' options={[]}/>
                     <Grid>
-                    <Input title="Height (cm)" type='number'/>
-                    <Input title="Weight (kg)" type='number'/>
-                    <Input title="Birthday"  />
-                    <Input title="Number" type='number'/>
+                    <Input id='Height' title="Height (cm)" type='number'/>
+                    <Input id='Weight' title="Weight (kg)" type='number'/>
+                    <Input id='Birthday' title="Birthday"  />
+                    <Input id='Number' title="Number" type='number'/>
                     </Grid>
                     <BtnWrapper>
                         <ButtonCancel type='button'/>
