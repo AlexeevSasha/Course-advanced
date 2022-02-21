@@ -18,6 +18,8 @@ export interface ISelectProps {
     menuPlacement?: 'top';
     value?: IOption;
     error?: string;
+    id?:string;
+    label?: string;
 }
 
 export const Selects: FC<ISelectProps> = ({
@@ -28,11 +30,13 @@ export const Selects: FC<ISelectProps> = ({
                                               onChange,
                                               menuPlacement,
                                               value,
-                                              error, ...rest
+                                              error, id,label, ...rest
                                           }) => {
     return (
         <div>
+            { label && <LabelStyle htmlFor={id}>{label}</LabelStyle>}
             <Select
+                inputId={id}
                 styles={customStyles}
                 value={value}
                 menuPlacement={menuPlacement}
@@ -47,6 +51,13 @@ export const Selects: FC<ISelectProps> = ({
         </div>
     );
 };
+
+const LabelStyle = styled.label`
+  color: ${({theme}) => theme.colors.grey};
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+`
 
 const ErrorStyle = styled.p`
   font-size: 12px;
