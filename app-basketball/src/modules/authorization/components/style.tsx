@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 export const FlexWrapper = styled.div`
   display: flex;
@@ -54,7 +55,7 @@ export const Text = styled.div`
   margin-top: 24px;
   text-align: center;
 `
-export const TextLink = styled.span`
+export const TextLink = styled(Link)`
   color: ${({theme}) => theme.colors.red};
   cursor: pointer;
   text-decoration: underline;
