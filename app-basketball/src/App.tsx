@@ -4,7 +4,6 @@ import {OutletWrapper} from "./common/hooks/OutletWrapper";
 import {Teams} from "./modules/teams/pages/Teams";
 import {Players} from "./modules/players/pages/Players";
 import {Error404} from "./common/components/Error404/Error404";
-import {HomeWork} from "./HomeWork";
 import {AddTeam} from "./modules/teams/pages/AddTeam";
 import {AddPlayer} from "./modules/players/pages/AddPlayer";
 import {SingIn} from "./modules/authorization/pages/SingIn";
@@ -18,8 +17,7 @@ export const App = () => {
         <Routes>
             <Route path="login" element={<SingIn/>}/>
             <Route path="registration" element={<SingUp/>}/>
-            <Route path="/" element={<Navigate to="/homework"/>}/>
-            <Route path='homework' element={<HomeWork/>}/>
+            <Route path="/" element={<Navigate to="/login"/>}/>
             <Route path='/' element={<OutletWrapper/>}>
                 <Route path='teams' element={<Teams/>}/>
                 <Route path='teams/:id' element={<InfoTeam/>}/>
