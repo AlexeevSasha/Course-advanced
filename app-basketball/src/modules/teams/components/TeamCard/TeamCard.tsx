@@ -30,10 +30,13 @@ const Logo = styled.div`
   align-items: center;
   background: linear-gradient(121.57deg, #707070 1.62%, #393939 81.02%);
   border-radius: 4px 4px 0 0;
-  //max-width: 365px;
+  max-width: 365px;
   width: 100%;
   height: 280px;
-  @media (max-width: 400px) {
+  @media (max-width: 1100px) {
+    height: 230px;
+  }
+  @media ${({theme}) => theme.media._480} {
     height: 150px;
   }
 `
@@ -43,7 +46,10 @@ const Img = styled.img`
   max-width: 150px;
   width: 100%;
   object-fit: cover;
-  @media (max-width: 400px) {
+  @media (max-width: 1100px) {
+    width: 120px;
+  }
+  @media ${({theme}) => theme.media._480} {
     width: 80px;
   }
 `
@@ -53,7 +59,7 @@ const CartItem = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: ${({theme}) => theme.colors.darkGrey};
-  //max-width: 365px;
+  max-width: 365px;
   width: 100%;
   padding: 24px 0;
   border-radius: 0 0 4px 4px;
