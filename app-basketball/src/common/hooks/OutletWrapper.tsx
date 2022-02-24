@@ -2,17 +2,24 @@ import React, {FC} from "react";
 import {Outlet} from "react-router-dom";
 import styled from "styled-components";
 import {Header, NavMenu} from "../components";
+import {useAppDispatch, useAppSelector} from "../../core/redux/reduxType";
+import {signOut} from "../../modules/authorization/authorizationSlice";
 
 
 export const OutletWrapper: FC = () => {
+    const dispatch = useAppDispatch()
+    const {user} = useAppSelector(state => state.auth)
     const [toggleMenu, setToggleMenu] = React.useState(false)
     const showToggle = () => {
         setToggleMenu(!toggleMenu)
     }
+    const signOutHandler = () => {
+        dispatch(signOut())
+    }
     return (
         <>
-            <ContainerHeader><Header toggle={toggleMenu} clickToggle={showToggle}/></ContainerHeader>
-            <ContainerMenu toggle={toggleMenu}><NavMenu/></ContainerMenu>
+            <ContainerHeader><Header toggle={toggleMenu} clickToggle={showToggle} name={user?.name}/></ContainerHeader>
+            <ContainerMenu toggle={toggleMenu}><NavMenu onClick={signOutHandler} name={user?.name}/></ContainerMenu>
             <RightDiv toggle={toggleMenu} onClick={showToggle}></RightDiv>
             <Wrapper>
                 <Content>
