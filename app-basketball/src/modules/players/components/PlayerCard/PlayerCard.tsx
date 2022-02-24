@@ -1,17 +1,25 @@
 import React, {FC} from "react";
 import styled from "styled-components";
-import player from '../../../../assets/images/player.png'
+import noLogo from  '../../../../assets/images/no-logo-player.svg'
 
 
-export const PlayerCard: FC = () => {
+interface IProps {
+    logo: string;
+    name: string;
+    number: number;
+    id?:number;
+    team: number;
+}
+
+export const PlayerCard: FC<IProps> = ({logo, name,number, team}) => {
     return (
         <Flex>
             <Logo>
-             <ImgContainer> <Img src={player} alt=""/></ImgContainer>
+             <ImgContainer> <Img src={logo || noLogo} alt=""/></ImgContainer>
             </Logo>
             <CartItem>
-                <Name>Jaylen Adams<Number>#10</Number></Name>
-                <Teams>Portland trail blazers</Teams>
+                <Name>{name}<Number>#{number}</Number></Name>
+                <Teams>{team || 'Название команды'}</Teams>
             </CartItem>
         </Flex>
     )
