@@ -2,28 +2,79 @@ import React, {FC} from "react";
 import styled from "styled-components";
 import {InputFile, Input, ButtonCancel, Button, Selects} from "../../../../common/components";
 import {optionsPosition} from "../../../../common/components/Select/data";
+import {useNavigate} from "react-router-dom";
+import {useForm, Controller} from "react-hook-form";
+import {IAddPlayer} from "../../../../api/players/playersDto";
+import {IOption} from "../../../../common/components/Select/Select";
+import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
+import {addPlayersAction} from "../../playersAction";
+
 
 
 export const FormPlayer: FC = () => {
+    const navigate = useNavigate();
+    const {teamOption} = useAppSelector(state => state.teams);
+    const {errorPlayers, loadingPlayers} = useAppSelector(state => state.players);
+    const dispatch = useAppDispatch();
+    const {register, handleSubmit, control,watch, formState: {errors}} = useForm<IAddPlayer>();
+    const onSubmit = (data: IAddPlayer) => {
+        const {birthday} = data;
+        const date =  new Date(birthday).toISOString()
+        dispatch(addPlayersAction({...data, birthday:date, avatarUrl: ''  }))
+        if ( errorPlayers === false && loadingPlayers === false) {
+            navigate(-1)
+        }
+    };
     return (
         <Wrapper>
             <BreadCrumbs>BreadCrumbs</BreadCrumbs>
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputFileContainer>
-                    <InputFile/>
+                    <InputFile  {...register('avatarUrl')} listFile={watch('avatarUrl')}/>
                 </InputFileContainer>
                 <FormRight>
-                    <Input id='namePlayer' title="Name"/>
-                        <Selects label='Position' id='PositionSelect' options={optionsPosition}/>
-                        <Selects label='Teams' id='TeamsSelect' options={[]}/>
+                    <Input id='namePlayer' title="Name"
+                           {...register('name', {required: 'Name required'})}
+                           error={errors.name?.message}
+                    />
+                    <Controller control={control} name='position' rules={{required: 'This field is required'}}
+                                render={({field: {onChange, value}}) => <Selects label='Position'
+                                                                                 id='PositionSelect'
+                                                                                 options={optionsPosition}
+                                                                                 error={errors.position?.message}
+                                                                                 value={optionsPosition.find((currenOption ) => currenOption.value === value )}
+                                                                                 onChange={(value : IOption) => onChange(value.value)}
+                                />}
+                    />
+                    <Controller control={control} name='team' rules={{required: 'This field is required'}}
+                                render={({field: {onChange, value}}) => <Selects label='Teams'
+                                                                                 id='TeamsSelect'
+                                                                                 options={teamOption}
+                                                                                 error={errors.team?.message}
+                                                                                 value={teamOption.find((currenOption ) => currenOption.value === value )}
+                                                                                 onChange={(value : IOption) => onChange(value.value)}
+                                />}
+                    />
                     <Grid>
-                    <Input id='Height' title="Height (cm)" type='number'/>
-                    <Input id='Weight' title="Weight (kg)" type='number'/>
-                    <Input id='Birthday' title="Birthday"  />
-                    <Input id='Number' title="Number" type='number'/>
+                        <Input id='Height' title="Height (cm)" type='number'
+                               {...register('height', {required: 'Height required', valueAsNumber: true})}
+                               error={errors.height?.message}
+                        />
+                        <Input id='Weight' title="Weight (kg)" type='number'
+                               {...register('weight', {required: 'Weight required', valueAsNumber: true})}
+                               error={errors.weight?.message}
+                        />
+                        <Input id='Birthday' title="Birthday" type='date' date
+                               {...register('birthday', {required: 'Birthday required'})}
+                               error={errors.birthday?.message}
+                        />
+                        <Input id='Number' title="Number" type='number'
+                               {...register('number', {required: 'Number required', valueAsNumber: true})}
+                               error={errors.number?.message}
+                        />
                     </Grid>
                     <BtnWrapper>
-                        <ButtonCancel type='button'/>
+                        <ButtonCancel type='button' onClick={() => navigate(-1)}/>
                         <Button type='submit'>Save</Button>
                     </BtnWrapper>
                 </FormRight>
@@ -33,18 +84,13 @@ export const FormPlayer: FC = () => {
 }
 
 const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
 `
 
-const SelectTitle = styled.label`
-color: ${({ theme }) => theme.colors.grey};
-font-size: 14px;
-display: block;
-margin-bottom: 5px;
-`
+
 const InputFileContainer = styled.div`
   max-width: 500px;
   width: 100%;
