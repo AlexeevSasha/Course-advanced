@@ -1,23 +1,25 @@
-import React, {FC, InputHTMLAttributes, useState} from "react";
+import React, {forwardRef, useEffect, useState} from "react";
 import {InputFileIcon} from "../SVGConstans/SVG";
 import styled from "styled-components";
 
+interface  IProps extends React.ComponentPropsWithoutRef<"input"> {
+    listFile?: FileList | undefined | string ;
+}
 
-export const InputFile: FC = ({...attr}: InputHTMLAttributes<HTMLInputElement>) => {
-    const [image, setImage] = useState<string>('')
-    const showHideImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const ar: FileList | null = e.target.files
-        if (!ar) return;
-        setImage(URL.createObjectURL(ar[0]));
-    }
+export const InputFile= forwardRef<HTMLInputElement, IProps>(({listFile,...attr}, ref) => {
+    const [image, setImage] = useState<string>('');
+    useEffect(() => {
+        if (listFile instanceof Object && listFile[0]) setImage(URL.createObjectURL(listFile[0]));
+        else setImage('')
+    }, [listFile])
     return (
         <LabelStyle>
             <IconStyle><InputFileIcon/></IconStyle>
             {image ? <ImgStyle src={image}/> : ''}
-            <InputStyle type="file" onChange={showHideImg}  {...attr}  />
+            <InputStyle type="file"   {...attr}  ref={ref}/>
         </LabelStyle>
     )
-}
+})
 const LabelStyle = styled.label`
   display: flex;
   justify-content: center;
