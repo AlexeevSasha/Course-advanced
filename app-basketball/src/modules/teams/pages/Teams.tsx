@@ -1,23 +1,31 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styled from "styled-components";
 import {TeamCard} from "../components/TeamCard/TeamCard";
 import {Search, Button, Pagination, Selects} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
+import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
+import {getTeamsAction} from "../teamsAction";
+
 export const Teams: FC = () => {
+    const dispatch = useAppDispatch();
+    const {teams} = useAppSelector(state => state.teams)
+    useEffect(() => {
+        dispatch(getTeamsAction())
+    }, [])
     return (
             <Flex>
                 <div>
                     <WrapperSearchaAndBtn>
                         <Search/>
-                        <Button btnAdd>Add +</Button>
+                        <LinkStyles to='addTeam'><Button btnAdd>Add +</Button></LinkStyles>
                     </WrapperSearchaAndBtn>
                     <GridContainer>
-                        <TeamCard/>
-                        <TeamCard/>
-                        <TeamCard/>
-                        <TeamCard/>
-                        <TeamCard/>
-                        <TeamCard/>
+                        {teams?.data.map(({avatarUrl, name, id, foundationYear}) => <TeamCard
+                            key={id}
+                            foundationYear={foundationYear}
+                            avatarUrl={avatarUrl}
+                            name={name}/>)}
                     </GridContainer>
                 </div>
                 <WrapperPaginAndSelect>
@@ -27,6 +35,15 @@ export const Teams: FC = () => {
             </Flex>
     );
 }
+
+const LinkStyles = styled(Link)`
+    max-width: 104px;
+    width: 100%;
+  @media ${({theme}) => theme.media._768} {
+    max-width: none;
+  }
+`
+
 const Flex = styled.div`
   display: flex;
   justify-content: space-between;
