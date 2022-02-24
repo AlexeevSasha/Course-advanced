@@ -5,16 +5,16 @@ import {NavLink} from 'react-router-dom';
 
 interface Props {
     onClick?: () => void;
-    name?: string | undefined;
+    name?: string;
 };
-export const NavMenu: FC<Props> = ({ onClick}) => {
+export const NavMenu: FC<Props> = ({ onClick, name}) => {
 
     return (
         <NavMenuWrapper>
             <NavFlex>
                 <Profile>
                     <ProfileAvatar><ProfileIcon/></ProfileAvatar>
-                    <ProfileName>{'Name'}</ProfileName>
+                    <ProfileName>{name || 'Name'}</ProfileName>
                 </Profile>
                 <LinkStyle to='teams' active='active'>
                     <Item>
@@ -29,7 +29,7 @@ export const NavMenu: FC<Props> = ({ onClick}) => {
                     </Item>
                 </LinkStyle>
             </NavFlex>
-            <Item>
+            <Item onClick={onClick}>
                 <IconStyle singout><SingOutIcon/></IconStyle>
                 <Title singout>Sign out</Title>
             </Item>
