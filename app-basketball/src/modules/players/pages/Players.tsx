@@ -1,10 +1,19 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import styled from "styled-components";
 import {PlayerCard} from "../components/PlayerCard/PlayerCard";
 import {Search, Button, Pagination, Selects} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
+import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
+import {getPlayersAction} from "../playersAction";
+
 
 export const Players: FC = () => {
+    const dispatch = useAppDispatch();
+    const {players} = useAppSelector(state => state.players)
+    useEffect(() => {
+        dispatch(getPlayersAction())
+    }, [dispatch])
     return (
         <Flex>
             <div>
@@ -13,12 +22,16 @@ export const Players: FC = () => {
                         <Search/>
                         <Selects options={[]} isMulti/>
                     </SearchAndSelect>
-                    <Button btnAdd>Add +</Button>
+                    <LinkStyles to='addPlayer'><Button btnAdd>Add +</Button></LinkStyles>
                 </WrapperSearchaAndBtn>
                 <GridContainer>
-                    <PlayerCard/>
-                    <PlayerCard/>
-                    <PlayerCard/>
+                    {players?.data.map(({name, id, avatarUrl, number, team}) => <PlayerCard
+                        key={id}
+                        name={name}
+                        number={number}
+                        team={team}
+                        logo={avatarUrl}
+                    />)}
                 </GridContainer>
             </div>
             <WrapperPaginAndSelect>
@@ -28,6 +41,13 @@ export const Players: FC = () => {
         </Flex>
     );
 }
+const LinkStyles = styled(Link)`
+    max-width: 104px;
+    width: 100%;
+  @media ${({theme}) => theme.media._768} {
+    max-width: none;
+  }
+`
 
 const SearchAndSelect = styled.div`
   display: flex;
