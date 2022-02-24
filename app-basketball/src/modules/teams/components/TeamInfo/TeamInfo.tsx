@@ -4,6 +4,7 @@ import logo from '../../../../assets/images/teamLogo.png'
 import styled from "styled-components";
 
 
+
 export const TeamInfo :FC = () => {
     return (
         <div>
