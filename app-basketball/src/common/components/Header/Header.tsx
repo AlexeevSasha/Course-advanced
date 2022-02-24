@@ -2,6 +2,7 @@ import React, {FC} from "react";
 import logo from '../../../assets/images/header-logo.png';
 import {MenuIcon, ProfileIcon} from "../";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 interface Props {
     name?: string;
@@ -13,7 +14,7 @@ export const Header: FC<Props> = ({name, toggle, clickToggle}) => {
     return (
         <HeaderWrapper>
             <HeaderMenu toggle={toggle}  onClick={clickToggle}><MenuIcon/></HeaderMenu>
-            <HeaderLogo>
+            <HeaderLogo to='teams'>
                 <LogoImg src={logo} alt="logo"/>
             </HeaderLogo>
             <HeaderProfile>
@@ -23,6 +24,7 @@ export const Header: FC<Props> = ({name, toggle, clickToggle}) => {
         </HeaderWrapper>
     )
 }
+
 
 
 const HeaderWrapper = styled.div`
@@ -60,7 +62,7 @@ const HeaderAvatar = styled.div`
     height: 40px;
   }
 `
-const HeaderLogo = styled.div`
+const HeaderLogo = styled(Link)`
   display: flex;
   align-items: center;
   cursor: pointer;
