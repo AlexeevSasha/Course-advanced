@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 import authSlice from "../../modules/authorization/authorizationSlice";
-import teamsSlice from "../../modules/teams/TeamsSlice";
+import teamsSlice from "../../modules/teams/teamsSlice";
 import playersSlice from "../../modules/players/playersSlice";
 
 
