@@ -1,0 +1,3 @@
+https://codesandbox.io/s/strange-cookies-2dxhzq?file=/src/App.tsx       //react-dom v6
+
+https://codesandbox.io/s/pedantic-water-du9uzr?file=/src/App.tsx        //react-dom v5
