@@ -8,16 +8,14 @@ import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
 import {addTeamAction} from "../../teamsAction";
 
 
+
 export const FormTeam: FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const { errorTeams, loadingTeams} = useAppSelector(state => state.teams)
     const {register, handleSubmit, watch, formState: {errors}} = useForm<IAddTeam>();
     const onSubmit = (data: IAddTeam) => {
-        dispatch(addTeamAction(data))
-        if (errorTeams === false && loadingTeams === false) {
-            navigate(-1)
-        }
+        dispatch(addTeamAction(data)).then((res : any) => res.error ? '' :  navigate(-1))
     };
     return (
         <Wrapper>
