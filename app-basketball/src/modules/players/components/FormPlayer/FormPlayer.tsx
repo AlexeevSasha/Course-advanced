@@ -20,10 +20,10 @@ export const FormPlayer: FC = () => {
     const onSubmit = (data: IAddPlayer) => {
         const {birthday} = data;
         const date =  new Date(birthday).toISOString()
-        dispatch(addPlayersAction({...data, birthday:date, avatarUrl: ''  }))
-        if ( errorPlayers === false && loadingPlayers === false) {
-            navigate(-1)
-        }
+        dispatch(addPlayersAction({...data, birthday:date, avatarUrl: ''  })).then((res : any) => res.error ? '' :  navigate(-1))
+        // if ( errorPlayers === false && loadingPlayers === false) {
+        //     navigate(-1)
+        // }
     };
     return (
         <Wrapper>
