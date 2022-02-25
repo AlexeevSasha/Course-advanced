@@ -6,6 +6,7 @@ import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {getTeamsAction} from "../teamsAction";
+import {Empty} from "../../../common/components/Empty/Empty";
 
 export const Teams: FC = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ export const Teams: FC = () => {
                         <Search/>
                         <LinkStyles to='addTeam'><Button btnAdd>Add +</Button></LinkStyles>
                     </WrapperSearchaAndBtn>
+                    {teams?.data.length === 0 || !teams && <Empty isflag/>}
                     <GridContainer>
                         {teams?.data.map(({avatarUrl, name, id, foundationYear}) => <TeamCard
                             key={id}
