@@ -6,6 +6,7 @@ import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {getPlayersAction} from "../playersAction";
+import {Empty} from "../../../common/components/Empty/Empty";
 
 
 export const Players: FC = () => {
@@ -24,6 +25,7 @@ export const Players: FC = () => {
                     </SearchAndSelect>
                     <LinkStyles to='addPlayer'><Button btnAdd>Add +</Button></LinkStyles>
                 </WrapperSearchaAndBtn>
+                 {players?.data.length === 0 || !players && <Empty/>}
                 <GridContainer>
                     {players?.data.map(({name, id, avatarUrl, number, team}) => <PlayerCard
                         key={id}
