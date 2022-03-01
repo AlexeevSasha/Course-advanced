@@ -4,17 +4,20 @@ import {CreateIcon, DeleteIcon} from "../";
 
 
 
+interface IProps {
+    onDelete?: () => void;
+    onEdit?: () => void;
+}
 
 
-
-export const HeaderCardInfo:FC = () => {
+export const HeaderCardInfo:FC<IProps> = ({onDelete, onEdit}) => {
     return (
             <HeaderCard>
                 <BreadCrumbsWrapper>Bread <SpanStyle>/</SpanStyle> Crumbs</BreadCrumbsWrapper>
                 <WrapperButton>
                     <Button>
-                        <ImgButton><CreateIcon/></ImgButton>
-                        <ImgButton><DeleteIcon/></ImgButton>
+                        <ImgButton onClick={onEdit}><CreateIcon/></ImgButton>
+                        <ImgButton onClick={onDelete}><DeleteIcon/></ImgButton>
                     </Button>
                 </WrapperButton>
             </HeaderCard>
@@ -59,7 +62,7 @@ const WrapperButton = styled.div`
     margin-right: 16px;
   }
 `
-const Button = styled.button`
+const Button = styled.div`
     background: transparent;
     border: none;
 `
