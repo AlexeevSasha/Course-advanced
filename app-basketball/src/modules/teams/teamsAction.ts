@@ -3,66 +3,48 @@ import {addTeam, deleteTeam, getTeamId, getTeams, upDateTeam} from "../../api/te
 import {IAddTeam, IGetTeams} from "../../api/teams/teamsDto";
 
 interface IRest {
-    page? :number
-    pageSize?:  number,
-    name?:string;
+    page?: number
+    pageSize?: number,
+    name?: string;
 }
 
 export const getTeamsThunk = createAsyncThunk(
     "teams/getTeams",
     async () => {
-        try {
-            const response = await getTeams();
-            return response;
-        } catch (e: any) {
-            return new Error(e)
-            // return thunkApi.rejectWithValue(e.message)
-        }
+        const response = await getTeams();
+        return response;
     },
 );
 
 export const getTeamIdThunk = createAsyncThunk(
     "teams/getTeamId",
-    async (id : number ) => {
-        try {
-            const response = await getTeamId(id);
-            return response;
-        } catch (e: any) {
-            return new Error(e)
-            // return thunkApi.rejectWithValue(e.message)
-        }
+    async (id: number) => {
+        const response = await getTeamId(id);
+        return response;
     },
 );
 
 export const addTeamThunk = createAsyncThunk(
     "teams/addTeam",
-    async (data :IAddTeam) => {
-            const response = await addTeam(data);
-            return response;
+    async (data: IAddTeam) => {
+        const response = await addTeam(data);
+        return response;
     },
 );
 
 export const editTeamThunk = createAsyncThunk(
     "teams/editTeam",
     async (data: IGetTeams) => {
-        try {
-            const response = await upDateTeam(data);
-            return response;
-        } catch (e: any) {
-            console.log(5)
-        }
+        const response = await upDateTeam(data);
+        return response;
     },
 );
 
 export const deleteTeamThunk = createAsyncThunk(
     "teams/deleteTeam",
-    async (id : number) => {
-        try {
-            const response = await deleteTeam(id);
-            return response;
-        } catch (e: any) {
-            console.log(5)
-        }
+    async (id: number) => {
+        const response = await deleteTeam(id);
+        return response;
     },
 );
 
@@ -70,13 +52,8 @@ export const deleteTeamThunk = createAsyncThunk(
 export const teamOptionThunk = createAsyncThunk(
     "teams/teamOption",
     async () => {
-        try {
-            const response = await getTeams();
-            return response;
-        } catch (e: any) {
-            return new Error(e)
-            // return thunkApi.rejectWithValue(e.message)
-        }
+        const response = await getTeams();
+        return response;
     },
 );
 
