@@ -1,22 +1,9 @@
-import {baseRequest} from "../baseRequest";
 import {ISignIn, ISignUp} from "./authDto";
+import {post} from "../baseRequest";
 
 export const signIn = (data: ISignIn) => {
-    return baseRequest({
-        url: "api/Auth/SignIn",
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
-        isAuth: false
-    })
+    return post('api/Auth/SignIn', JSON.stringify(data))
 }
-
 export const signUp = (data: ISignUp) => {
-    return baseRequest({
-        url: "api/Auth/SignUp",
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
-        isAuth: false
-    })
+    return post('api/Auth/SignUp', JSON.stringify(data))
 }
