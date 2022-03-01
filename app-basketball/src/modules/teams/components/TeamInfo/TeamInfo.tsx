@@ -1,39 +1,47 @@
-import React, {FC} from "react";
-import {HeaderCardInfo} from "../../../../common/components/HeaderCardInfo/HeaderCardInfo";
-import logo from '../../../../assets/images/teamLogo.png'
+import React, {FC, useEffect} from "react";
+import {useNavigate, useParams, Link} from "react-router-dom";
+import noLogo from '../../../../assets/images/no-logo-time.svg'
 import styled from "styled-components";
+import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
+import {getTeamIdThunk} from "../../teamsAction";
+import {Spinner} from "../../../../common/components";
 
 
-
-export const TeamInfo :FC = () => {
+export const TeamInfo: FC = () => {
+    const dispatch = useAppDispatch()
+    const {id} = useParams();
+    const {team, loadingTeams} = useAppSelector(state => state.teams)
+    useEffect(() => {
+        dispatch(getTeamIdThunk(Number(id)))
+    }, [])
     return (
-        <div>
-        <HeaderCardInfo/>
         <TeamWrapper>
-           <ImgLogo><img src={logo}/></ImgLogo>
-            <Content>
-                <Name>Denver Nuggets</Name>
-                <Flex>
-                    <Group>
+            {loadingTeams ? <Spinner/> : <>
+                <ImgLogo><img src={team?.imageUrl || noLogo}/></ImgLogo>
+                <Content>
+                    <Name>{team?.name}</Name>
+                    <Flex>
+                        <Group>
                             <Title>Year of foundation</Title>
-                            <Text>1976</Text>
+                            <Text>{team?.foundationYear}</Text>
                             <Title>Conference</Title>
-                            <Text>Western</Text>
-                    </Group>
-                    <Group>
+                            <Text>{team?.division}</Text>
+                        </Group>
+                        <Group>
                             <Title>Division</Title>
-                            <Text>Northwestern</Text>
-                    </Group>
-                </Flex>
-            </Content>
+                            <Text>{team?.conference}</Text>
+                        </Group>
+                    </Flex>
+                </Content>
+            </>}
         </TeamWrapper>
-        </div>
     )
 }
 
 
 const TeamWrapper = styled.div`
-  display: flex;  width: 100%;
+  display: flex;
+  width: 100%;
   background: linear-gradient(276.45deg, #393939 0%, #707070 100.28%);
   border-radius: 0 0 10px 10px;
   align-items: center;
@@ -44,16 +52,17 @@ const TeamWrapper = styled.div`
   }
 `
 const ImgLogo = styled.div`
- max-width: 500px;
+  max-width: 500px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+
   img {
     width: 210px;
     height: 210px;
     object-fit: cover;
-    @media  (max-width: 768px) {
+    @media (max-width: 768px) {
       margin: 48px auto;
       width: 150px;
       height: 150px;
@@ -62,7 +71,7 @@ const ImgLogo = styled.div`
 `
 const Content = styled.div`
   margin: 40px 0 0;
-    display: flex;
+  display: flex;
   align-items: flex-start;
   flex-direction: column;
   color: white;
@@ -70,7 +79,7 @@ const Content = styled.div`
     align-items: center;
     margin: 0;
   }
-  
+
 `
 const Name = styled.div`
   font-weight: 800;
@@ -83,15 +92,15 @@ const Name = styled.div`
   }
 `
 const Flex = styled.div`
-    display: flex;
+  display: flex;
   @media (max-width: 700px) {
     flex-direction: column;
   }
 `
 const Group = styled.div`
-    display: flex;
-   flex-direction: column;
-   margin-right: 80px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 80px;
   @media (max-width: 700px) {
     align-items: center;
     margin: 0;
