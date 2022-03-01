@@ -21,9 +21,9 @@ export const FormTeam: FC<IProps> = React.memo(({dataTeam, isEditFlag}) => {
 
     const onSubmit = (data: IAddTeam) => {
         if (isEditFlag) {
-            dispatch(editTeamThunk({...data, id: Number(dataTeam?.id)}))
+            dispatch(editTeamThunk({...data, id: Number(dataTeam?.id)})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
         } else {
-            dispatch(addTeamThunk({...data, imageUrl: imgSave}))
+            dispatch(addTeamThunk({...data, imageUrl: imgSave})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
         }
     };
 
