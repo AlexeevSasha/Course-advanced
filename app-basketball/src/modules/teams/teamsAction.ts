@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {addTeam, getTeams} from "../../api/teams/teamsServise";
-import {IAddTeam} from "../../api/teams/teamsDto";
+import {addTeam, deleteTeam, getTeamId, getTeams, upDateTeam} from "../../api/teams/teamsServise";
+import {IAddTeam, IGetTeams} from "../../api/teams/teamsDto";
 
 interface IRest {
     page? :number
@@ -8,7 +8,7 @@ interface IRest {
     name?:string;
 }
 
-export const getTeamsAction = createAsyncThunk(
+export const getTeamsThunk = createAsyncThunk(
     "teams/getTeams",
     async () => {
         try {
@@ -21,19 +21,53 @@ export const getTeamsAction = createAsyncThunk(
     },
 );
 
-export const addTeamAction = createAsyncThunk(
-    "teams/addTeam",
-    async (data :IAddTeam, thunkApi) => {
+export const getTeamIdThunk = createAsyncThunk(
+    "teams/getTeamId",
+    async (id : number ) => {
         try {
-            const response = await addTeam(data);
+            const response = await getTeamId(id);
             return response;
         } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
+            return new Error(e)
+            // return thunkApi.rejectWithValue(e.message)
         }
     },
 );
 
-export const teamOptionAction = createAsyncThunk(
+export const addTeamThunk = createAsyncThunk(
+    "teams/addTeam",
+    async (data :IAddTeam) => {
+            const response = await addTeam(data);
+            return response;
+    },
+);
+
+export const editTeamThunk = createAsyncThunk(
+    "teams/editTeam",
+    async (data: IGetTeams) => {
+        try {
+            const response = await upDateTeam(data);
+            return response;
+        } catch (e: any) {
+            console.log(5)
+        }
+    },
+);
+
+export const deleteTeamThunk = createAsyncThunk(
+    "teams/deleteTeam",
+    async (id : number) => {
+        try {
+            const response = await deleteTeam(id);
+            return response;
+        } catch (e: any) {
+            console.log(5)
+        }
+    },
+);
+
+
+export const teamOptionThunk = createAsyncThunk(
     "teams/teamOption",
     async () => {
         try {
