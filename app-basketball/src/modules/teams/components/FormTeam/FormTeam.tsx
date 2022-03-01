@@ -1,28 +1,42 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
 import styled from "styled-components";
 import {InputFile, Input, ButtonCancel, Button} from "../../../../common/components";
 import {useForm} from "react-hook-form";
-import {IAddTeam} from "../../../../api/teams/teamsDto";
+import {IAddTeam, IGetTeams} from "../../../../api/teams/teamsDto";
 import {useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
-import {addTeamAction} from "../../teamsAction";
+import {useAppDispatch} from "../../../../core/redux/reduxType";
+import {editTeamThunk, addTeamThunk} from "../../teamsAction";
+
+interface IProps {
+    dataTeam?: IGetTeams;
+    isEditFlag?:boolean
+}
 
 
-
-export const FormTeam: FC = () => {
+export const FormTeam: FC<IProps> = React.memo(({dataTeam, isEditFlag}) => {
+    const [imgSave, setImgSave] = useState('')
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { errorTeams, loadingTeams} = useAppSelector(state => state.teams)
-    const {register, handleSubmit, watch, formState: {errors}} = useForm<IAddTeam>();
+    const {register, handleSubmit, watch,reset, formState: {errors}} = useForm<IAddTeam>();
+
     const onSubmit = (data: IAddTeam) => {
-        dispatch(addTeamAction(data)).then((res : any) => res.error ? '' :  navigate(-1))
+        if (isEditFlag) {
+            dispatch(editTeamThunk({...data, id: Number(dataTeam?.id)}))
+        } else {
+            dispatch(addTeamThunk({...data, imageUrl: imgSave}))
+        }
     };
+
+    useEffect(() => {
+        reset(dataTeam);
+    }, [dataTeam]);
+
     return (
         <Wrapper>
             <BreadCrumbs>BreadCrumbs</BreadCrumbs>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputFileContainer>
-                    <InputFile  {...register('avatarUrl')} listFile={watch('avatarUrl')}/>
+                    <InputFile  {...register('imageUrl')} listFile={watch('imageUrl')} imgHandler={setImgSave}/>
                 </InputFileContainer>
                 <FormRight>
                     <Input id='nameTeam' title="Name"
@@ -34,8 +48,13 @@ export const FormTeam: FC = () => {
                     <Input id='Conference' title="Conference"
                            {...register('conference', {required: 'Conference required'})}
                            error={errors.conference?.message}/>
-                    <Input id='Year' title="Year of foundation" type="number"
-                           {...register('foundationYear', {required: 'Year of foundation required', valueAsNumber: true})}
+                    <Input id='Year' title="Year of foundation"
+                           {...register('foundationYear', {required: 'Year of foundation required',
+                               pattern: {
+                                   value: /(?:19|20)\d{2}/i,
+                                   message: "Invalid year"
+                               },
+                           })}
                            error={errors.foundationYear?.message}/>
                     <BtnWrapper>
                         <ButtonCancel type='button' onClick={() => navigate(-1)}/>
@@ -45,7 +64,7 @@ export const FormTeam: FC = () => {
             </Form>
         </Wrapper>
     )
-}
+})
 const InputFileContainer = styled.div`
   max-width: 500px;
   width: 100%;
