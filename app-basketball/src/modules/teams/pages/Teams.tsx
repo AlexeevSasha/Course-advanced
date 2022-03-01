@@ -1,18 +1,18 @@
 import React, {FC, useEffect} from 'react';
 import styled from "styled-components";
 import {TeamCard} from "../components/TeamCard/TeamCard";
-import {Search, Button, Pagination, Selects} from "../../../common/components";
+import {Search, Button, Pagination, Selects, Spinner} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
-import {getTeamsAction} from "../teamsAction";
+import {getTeamsThunk} from "../teamsAction";
 import {Empty} from "../../../common/components/Empty/Empty";
 
 export const Teams: FC = () => {
     const dispatch = useAppDispatch();
-    const {teams} = useAppSelector(state => state.teams)
+    const {teams, loadingTeams} = useAppSelector(state => state.teams)
     useEffect(() => {
-        dispatch(getTeamsAction())
+        dispatch(getTeamsThunk())
     }, [])
     return (
             <Flex>
@@ -21,14 +21,16 @@ export const Teams: FC = () => {
                         <Search/>
                         <LinkStyles to='addTeam'><Button btnAdd>Add +</Button></LinkStyles>
                     </WrapperSearchaAndBtn>
-                    {teams?.data.length === 0 || !teams && <Empty isflag/>}
-                    <GridContainer>
-                        {teams?.data.map(({avatarUrl, name, id, foundationYear}) => <TeamCard
-                            key={id}
-                            foundationYear={foundationYear}
-                            avatarUrl={avatarUrl}
-                            name={name}/>)}
-                    </GridContainer>
+                    {loadingTeams ? <SpinnerWrapper><Spinner/></SpinnerWrapper> :
+                        !teams?.count || !teams ? <Empty/> :  <GridContainer>
+                            {teams?.data.map(({imageUrl, name, id, foundationYear}) => <TeamCard
+                                key={id}
+                                id={id}
+                                foundationYear={foundationYear}
+                                logo={imageUrl}
+                                name={name}/>)}
+                        </GridContainer>
+                    }
                 </div>
                 <WrapperPaginAndSelect>
                     <Pagination pageCount={5} initialPage={1 - 1}/>
@@ -37,6 +39,13 @@ export const Teams: FC = () => {
             </Flex>
     );
 }
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`
 
 const LinkStyles = styled(Link)`
     max-width: 104px;
