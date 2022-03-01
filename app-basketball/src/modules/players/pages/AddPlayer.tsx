@@ -1,13 +1,13 @@
 import React, {FC, useEffect} from "react";
 import {FormPlayer} from "../components/FormPlayer/FormPlayer";
 import {useAppDispatch} from "../../../core/redux/reduxType";
-import {teamOptionAction} from "../../teams/teamsAction";
+import {teamOptionThunk} from "../../teams/teamsAction";
 
 export const AddPlayer : FC = () => {
-    const dispath = useAppDispatch()
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        dispath(teamOptionAction())
-    }, [dispath])
+        dispatch(teamOptionThunk())
+    }, [dispatch])
     return (
         <FormPlayer/>
     )
