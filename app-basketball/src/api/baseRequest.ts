@@ -1,32 +1,47 @@
 export const BASE_URL = 'http://dev.trainee.dex-it.ru/'
 
-interface IBaseRequestProps {
-    url: string;
-    method: "GET" | "POST" | "PUT" | "DELETE";
-    headers?: {
-        "Content-Type"?: "application/json" | "multipart/form-data";
-        Authorization?: string;
-    },
-    body?: string;
-    isAuth: boolean;
+const request = async (url : string, data: any, token : string | undefined) => {
+    const headersToken = token ? { Authorization: `Bearer ${token}`} : {}
+    const headersMultiPart = typeof data.body === 'string' ? { "Content-type" : "application/json;charset=utf-8"} : {}
+
+    const response = await fetch(url, {
+        ...data,
+        headers: {
+            ...headersToken,
+            ...headersMultiPart,
+        },
+    });
+
+    if (response.ok) {
+        if (response.headers.get('Content-Length') === '0') {
+            return true
+        }
+        const typeResponse = response.headers.get("Content-type");
+        let result;
+        if (typeResponse === 'aplication/text') {
+            result = await response.text()
+            return result
+        }
+        result = await response.json()
+        return result;
+    } else {
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem("user");
+            throw new Error("Unauthorized user");
+        }
+        if (response.status === 409) throw new Error('Already exists');
+        throw {status: response.status}
+    }
+
 }
 
-export const baseRequest = async ({ url, ...rest }: IBaseRequestProps) => {
-    try {
-        const user =  JSON.parse(`${localStorage.getItem("user")}`);
-        const auth = rest.isAuth ? { Authorization: `Bearer ${user.token}`} : {};
-        const response = await fetch(BASE_URL + url, { ...rest, headers: {...rest.headers, ...auth}});
-        if (response.status === 401) {
-            throw new Error('Wrong login or password')
-        }
-        if (response.status === 409) {
-            throw new Error('User already registered')
-        }
-        if (!response.ok) {
-            throw new Error(response.status.toString())
-        }
-        return response.json()
-    } catch (e : any) {
-        throw new Error(e.message);
-    }
-};
+export const get = (url: string, token?: string) => request(`${BASE_URL}${url}`, {method: "GET"}, token)
+
+export const post = (url: string, body: string | FormData, token?: string ) => {
+    return request(`${BASE_URL}${url}`, {method: "POST", body}, token)
+}
+export const put = (url: string, body: string, token: string) => {
+    return request(`${BASE_URL}${url}`, {method: "PUT", body}, token)
+}
+export const remove = (url: string, token: string) => request(`${BASE_URL}${url}`, {method: "DELETE"}, token)
+
