@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import {IFormRegistration} from "./interfaces";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
-import {registerAction} from "../authorizationAction";
+import {registerThunk} from "../authorizationAction";
 
 
 export const SingUpForm: FC = () => {
@@ -17,7 +17,7 @@ export const SingUpForm: FC = () => {
     const passwordCurrent = watch("password", "");
     const onSubmit = (data: IFormRegistration) => {
         const {login, userName, password} = data;
-        dispatch(registerAction({login, userName, password}))
+        dispatch(registerThunk({login, userName, password}))
     };
     useEffect(() => {
         if (user) navigate('/teams', { replace: true })

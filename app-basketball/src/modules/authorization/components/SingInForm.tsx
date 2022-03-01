@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {IFormLogin} from "./interfaces";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
-import {loginAction} from "../authorizationAction";
+import {loginThunk} from "../authorizationAction";
+
 
 
 
@@ -15,7 +16,7 @@ export const SingInForm: FC = () => {
     const { user} = useAppSelector(state => state.auth)
     const { register, handleSubmit, formState: { errors } } = useForm<IFormLogin>();
     const onSubmit =  (data: IFormLogin) => {
-         dispatch(loginAction(data))
+            dispatch(loginThunk(data))
     };
     useEffect(() => {
         if (user) navigate('/teams', { replace: true })
