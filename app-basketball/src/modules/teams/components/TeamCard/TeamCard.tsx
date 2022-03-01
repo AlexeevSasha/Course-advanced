@@ -1,21 +1,22 @@
 import React, {FC} from "react";
 import styled from "styled-components";
 import noLogo from '../../../../assets/images/no-logo-time.svg'
+import {Link} from "react-router-dom";
 
 
 
 interface IProps {
-    avatarUrl : string,
+    logo : string,
     name : string,
     foundationYear : number
     id?: number;
 }
 
-export const TeamCard: FC<IProps> = ({avatarUrl, name,  foundationYear, id}) => {
+export const TeamCard: FC<IProps> = ({logo, name,  foundationYear, id}) => {
     return (
-        <Flex>
+        <Flex to={`${id}`}>
             <Logo>
-                <Img src={avatarUrl || noLogo}/>
+                <Img src={logo || noLogo}/>
             </Logo>
             <CartItem>
                 <Name>{name}</Name>
@@ -26,7 +27,7 @@ export const TeamCard: FC<IProps> = ({avatarUrl, name,  foundationYear, id}) => 
 }
 
 
-const Flex = styled.div`
+const Flex = styled(Link)`
   display: flex;
   flex-direction: column;
   cursor: pointer;
