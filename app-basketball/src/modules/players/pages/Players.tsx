@@ -1,19 +1,20 @@
 import React, {FC, useEffect} from 'react';
 import styled from "styled-components";
 import {PlayerCard} from "../components/PlayerCard/PlayerCard";
-import {Search, Button, Pagination, Selects} from "../../../common/components";
+import {Search, Button, Pagination, Selects, Empty, Spinner} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
-import {getPlayersAction} from "../playersAction";
-import {Empty} from "../../../common/components/Empty/Empty";
+import {getPlayersThunk } from "../playersAction";
+
+
 
 
 export const Players: FC = () => {
     const dispatch = useAppDispatch();
-    const {players} = useAppSelector(state => state.players)
+    const {players, loadingPlayers} = useAppSelector(state => state.players)
     useEffect(() => {
-        dispatch(getPlayersAction())
+        dispatch(getPlayersThunk())
     }, [dispatch])
     return (
         <Flex>
@@ -25,16 +26,19 @@ export const Players: FC = () => {
                     </SearchAndSelect>
                     <LinkStyles to='addPlayer'><Button btnAdd>Add +</Button></LinkStyles>
                 </WrapperSearchaAndBtn>
-                 {players?.data.length === 0 || !players && <Empty/>}
-                <GridContainer>
-                    {players?.data.map(({name, id, avatarUrl, number, team}) => <PlayerCard
-                        key={id}
-                        name={name}
-                        number={number}
-                        team={team}
-                        logo={avatarUrl}
+                {loadingPlayers ? <SpinnerWrapper><Spinner/></SpinnerWrapper> :
+                    !players?.count || !players ? <Empty/> :<GridContainer>
+                {players?.data.map(({name, id, avatarUrl, number, team}) => <PlayerCard
+                    key={id}
+                    id={id}
+                    name={name}
+                    number={number}
+                    team={team}
+                    logo={avatarUrl}
                     />)}
-                </GridContainer>
+                    </GridContainer>
+                }
+
             </div>
             <WrapperPaginAndSelect>
                 <Pagination pageCount={5} initialPage={1 - 1}/>
@@ -43,6 +47,15 @@ export const Players: FC = () => {
         </Flex>
     );
 }
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`
+
+
 const LinkStyles = styled(Link)`
     max-width: 104px;
     width: 100%;
