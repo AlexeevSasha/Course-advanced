@@ -22,10 +22,14 @@ export const Empty: FC<Props> = ({isflag = false}) => {
 
 
 const Wrapper = styled.div`
-  height: 100%;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  @media ${({theme}) => theme.media._768} {
+    margin-top: 25px;
+  }
 `
 
 const EmptyImg = styled.div`
