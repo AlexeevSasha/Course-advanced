@@ -1,16 +1,27 @@
 import React, {forwardRef, useEffect, useState} from "react";
 import {InputFileIcon} from "../SVGConstans/SVG";
 import styled from "styled-components";
+import {saveImages} from "../../../api/images/imagesServise";
 
 interface  IProps extends React.ComponentPropsWithoutRef<"input"> {
     listFile?: FileList | undefined | string ;
+    imgHandler?: any;
 }
 
-export const InputFile= forwardRef<HTMLInputElement, IProps>(({listFile,...attr}, ref) => {
+export const InputFile= forwardRef<HTMLInputElement, IProps>(({listFile,imgHandler,...attr }, ref) => {
     const [image, setImage] = useState<string>('');
-    useEffect(() => {
-        if (listFile instanceof Object && listFile[0]) setImage(URL.createObjectURL(listFile[0]));
-        else setImage('')
+    useEffect( () => {
+        if (typeof listFile === "string") {
+            setImage(listFile)
+            imgHandler(listFile)
+        } else if (listFile instanceof Object && listFile[0]) {
+            setImage(URL.createObjectURL(listFile[0]));
+            const imgUrl = async () => {
+                const url : string = await saveImages(listFile[0]);
+                imgHandler(url)
+            }
+            imgUrl()
+        }  else setImage('')
     }, [listFile])
     return (
         <LabelStyle>
