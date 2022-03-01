@@ -3,7 +3,7 @@ import {ISignUp, ISignIn} from "../../api/auth/authDto";
 import {signIn, signUp} from "../../api/auth/authService";
 
 
-export const registerAction = createAsyncThunk(
+export const registerThunk = createAsyncThunk(
     "auth/signUp",
     async (data: ISignUp, thunkApi) => {
         try {
@@ -17,7 +17,7 @@ export const registerAction = createAsyncThunk(
     },
 );
 
-export const loginAction = createAsyncThunk(
+export const loginThunk = createAsyncThunk(
     "auth/signIn",
     async (data: ISignIn,thunkApi) => {
         try {
