@@ -1,36 +1,48 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
 import styled from "styled-components";
 import {InputFile, Input, ButtonCancel, Button, Selects} from "../../../../common/components";
 import {optionsPosition} from "../../../../common/components/Select/data";
 import {useNavigate} from "react-router-dom";
 import {useForm, Controller} from "react-hook-form";
-import {IAddPlayer} from "../../../../api/players/playersDto";
+import {IAddPlayer, IGetPlayerResponse} from "../../../../api/players/playersDto";
 import {IOption} from "../../../../common/components/Select/Select";
 import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
-import {addPlayersAction} from "../../playersAction";
+import {addPlayersThunk, editPlayersThunk} from "../../playersAction";
+import { format} from 'date-fns'
 
 
+interface IProps {
+    dataPlayer?: IGetPlayerResponse;
+    isEditFlag?:boolean
+}
 
-export const FormPlayer: FC = () => {
+export const FormPlayer: FC<IProps> = ({dataPlayer, isEditFlag}) => {
+    const [imgSave, setImgSave] = useState('')
     const navigate = useNavigate();
     const {teamOption} = useAppSelector(state => state.teams);
-    const {errorPlayers, loadingPlayers} = useAppSelector(state => state.players);
     const dispatch = useAppDispatch();
-    const {register, handleSubmit, control,watch, formState: {errors}} = useForm<IAddPlayer>();
+    const {register, handleSubmit, control,watch,reset, formState: {errors}} = useForm<IAddPlayer>();
     const onSubmit = (data: IAddPlayer) => {
-        const {birthday} = data;
-        const date =  new Date(birthday).toISOString()
-        dispatch(addPlayersAction({...data, birthday:date, avatarUrl: ''  })).then((res : any) => res.error ? '' :  navigate(-1))
-        // if ( errorPlayers === false && loadingPlayers === false) {
-        //     navigate(-1)
-        // }
+        const date =  new Date(data?.birthday).toISOString()
+        if (isEditFlag) {
+            dispatch(editPlayersThunk({...data, birthday: date, id: Number(dataPlayer?.id), avatarUrl: imgSave}))
+        } else {
+            dispatch(addPlayersThunk({...data, birthday:date, avatarUrl: imgSave }))
+        }
     };
+
+    useEffect(() => {
+        if (!dataPlayer) return;
+        const date =  format(new Date(dataPlayer.birthday),'yyyy-MM-dd');
+        reset({...dataPlayer, birthday: date});
+    }, [dataPlayer]);
+
     return (
         <Wrapper>
             <BreadCrumbs>BreadCrumbs</BreadCrumbs>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputFileContainer>
-                    <InputFile  {...register('avatarUrl')} listFile={watch('avatarUrl')}/>
+                    <InputFile  {...register('avatarUrl')} listFile={watch('avatarUrl')} imgHandler={setImgSave}/>
                 </InputFileContainer>
                 <FormRight>
                     <Input id='namePlayer' title="Name"
