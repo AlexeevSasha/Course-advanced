@@ -25,9 +25,9 @@ export const FormPlayer: FC<IProps> = ({dataPlayer, isEditFlag}) => {
     const onSubmit = (data: IAddPlayer) => {
         const date =  new Date(data?.birthday).toISOString()
         if (isEditFlag) {
-            dispatch(editPlayersThunk({...data, birthday: date, id: Number(dataPlayer?.id), avatarUrl: imgSave}))
+            dispatch(editPlayersThunk({...data, birthday: date, id: Number(dataPlayer?.id), avatarUrl: imgSave})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
         } else {
-            dispatch(addPlayersThunk({...data, birthday:date, avatarUrl: imgSave }))
+            dispatch(addPlayersThunk({...data, birthday:date, avatarUrl: imgSave })).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
         }
     };
 
