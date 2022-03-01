@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IGetTeams} from "../../api/teams/teamsDto";
-import {getTeamsAction, addTeamAction, teamOptionAction} from "./teamsAction";
+import {getTeamsThunk, addTeamThunk, teamOptionThunk, getTeamIdThunk, deleteTeamThunk, editTeamThunk} from "./teamsAction";
 
 interface IOption {
     value: number;
@@ -38,40 +38,82 @@ export const teamsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         //getTeams
-        builder.addCase(getTeamsAction.pending, (state) => {
+        builder.addCase(getTeamsThunk.pending, (state) => {
             state.loadingTeams = true;
         });
-        builder.addCase(getTeamsAction.fulfilled, (state, action) => {
+        builder.addCase(getTeamsThunk.fulfilled, (state, action) => {
             state.loadingTeams = false;
             state.errorTeams = false;
             state.teams = action.payload;
         });
-        builder.addCase(getTeamsAction.rejected, (state) => {
+        builder.addCase(getTeamsThunk.rejected, (state) => {
             state.loadingTeams = false;
             state.errorTeams = true;
         });
-        //addteam
-        builder.addCase(addTeamAction.pending, (state) => {
+
+        //getTeamId
+        builder.addCase(getTeamIdThunk.pending, (state) => {
             state.loadingTeams = true;
         });
-        builder.addCase(addTeamAction.fulfilled, (state, action) => {
+        builder.addCase(getTeamIdThunk.fulfilled, (state, action) => {
+            state.team = action.payload;
             state.loadingTeams = false;
             state.errorTeams = false;
         });
-        builder.addCase(addTeamAction.rejected, (state) => {
+        builder.addCase(getTeamIdThunk.rejected, (state) => {
             state.loadingTeams = false;
             state.errorTeams = true;
         });
-        //teamOption
-        builder.addCase(teamOptionAction.pending, (state) => {
+
+        //addteam
+        builder.addCase(addTeamThunk.pending, (state) => {
             state.loadingTeams = true;
         });
-        builder.addCase(teamOptionAction.fulfilled, (state, action) => {
+        builder.addCase(addTeamThunk.fulfilled, (state, action) => {
+            state.loadingTeams = false;
+            state.errorTeams = false;
+        });
+        builder.addCase(addTeamThunk.rejected, (state) => {
+            state.loadingTeams = false;
+            state.errorTeams = true;
+        });
+
+        //editteam
+        builder.addCase(editTeamThunk.pending, (state) => {
+            state.loadingTeams = true;
+        });
+        builder.addCase(editTeamThunk.fulfilled, (state, action) => {
+            state.loadingTeams = false;
+            state.errorTeams = false;
+        });
+        builder.addCase(editTeamThunk.rejected, (state) => {
+            state.loadingTeams = false;
+            state.errorTeams = true;
+        });
+
+        //deleteTeam
+        builder.addCase(deleteTeamThunk.pending, (state) => {
+            state.loadingTeams = true;
+        });
+        builder.addCase(deleteTeamThunk.fulfilled, (state, action) => {
+            state.loadingTeams = false;
+            state.errorTeams = false;
+        });
+        builder.addCase(deleteTeamThunk.rejected, (state) => {
+            state.loadingTeams = false;
+            state.errorTeams = true;
+        });
+
+        //teamOption
+        builder.addCase(teamOptionThunk.pending, (state) => {
+            state.loadingTeams = true;
+        });
+        builder.addCase(teamOptionThunk.fulfilled, (state, action) => {
             state.loadingTeams = false;
             state.errorTeams = false;
             state.teamOption = action.payload.data.map((elem : IGetTeams) => ({value: elem.id, label: elem.name}))
         });
-        builder.addCase(teamOptionAction.rejected, (state) => {
+        builder.addCase(teamOptionThunk.rejected, (state) => {
             state.loadingTeams = false;
             state.errorTeams = true;
         });
