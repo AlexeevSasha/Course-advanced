@@ -1,6 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {addPlayers, getPlayers} from "../../api/players/playersService";
-import {IAddPlayer} from "../../api/players/playersDto";
+import {addPlayers, getPlayerId, getPlayers, upDatePlayer, deletePlayer} from "../../api/players/playersService";
+import {IAddPlayer, IGetPlayer} from "../../api/players/playersDto";
+
 
 
 interface IRest {
@@ -10,7 +11,7 @@ interface IRest {
     filterTeams?: string
 }
 
-export const getPlayersAction = createAsyncThunk(
+export const getPlayersThunk  = createAsyncThunk(
     "players/getPlayers",
     async () => {
         try {
@@ -23,7 +24,19 @@ export const getPlayersAction = createAsyncThunk(
     },
 );
 
-export const addPlayersAction = createAsyncThunk(
+export const getPlayerIdThunk  = createAsyncThunk(
+    "players/getPlayerId",
+    async (id : number) => {
+        try {
+            const response = await getPlayerId(id);
+            return response;
+        } catch (e: any) {
+            return new Error(e)
+            // return thunkApi.rejectWithValue(e.message)
+        }
+    },
+);
+export const addPlayersThunk  = createAsyncThunk(
     "players/addPlayers",
     async (data :IAddPlayer, thunkApi) => {
         try {
@@ -34,3 +47,29 @@ export const addPlayersAction = createAsyncThunk(
         }
     },
 );
+
+export const editPlayersThunk  = createAsyncThunk(
+    "players/editPlayers",
+    async (data :IGetPlayer, thunkApi) => {
+        try {
+            const response = await upDatePlayer(data);
+            return response;
+        } catch (e: any) {
+            return thunkApi.rejectWithValue(e.message)
+        }
+    },
+);
+
+export const deletelayersThunk  = createAsyncThunk(
+    "players/deletePlayers",
+    async (id :number, thunkApi) => {
+        try {
+            const response = await deletePlayer(id);
+            return response;
+        } catch (e: any) {
+            return thunkApi.rejectWithValue(e.message)
+        }
+    },
+);
+
+
