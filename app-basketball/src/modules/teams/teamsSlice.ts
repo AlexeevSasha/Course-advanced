@@ -20,7 +20,7 @@ interface IState {
     team: IGetTeams | null;
     teamOption: IOption[];
     loadingTeams: boolean;
-    errorTeams: boolean;
+    errorTeams: boolean | string | undefined;
 }
 
 
@@ -73,8 +73,9 @@ export const teamsSlice = createSlice({
             state.loadingTeams = false;
             state.errorTeams = false;
         });
-        builder.addCase(addTeamThunk.rejected, (state) => {
+        builder.addCase(addTeamThunk.rejected, (state, action) => {
             state.loadingTeams = false;
+            console.log(action.error.message)
             state.errorTeams = true;
         });
 
@@ -86,9 +87,9 @@ export const teamsSlice = createSlice({
             state.loadingTeams = false;
             state.errorTeams = false;
         });
-        builder.addCase(editTeamThunk.rejected, (state) => {
+        builder.addCase(editTeamThunk.rejected, (state,) => {
             state.loadingTeams = false;
-            state.errorTeams = true;
+            state.errorTeams = false;
         });
 
         //deleteTeam
