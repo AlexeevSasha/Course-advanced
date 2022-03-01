@@ -9,6 +9,9 @@ export {Search} from './Input/Search';
 export {NavMenu} from './NavMenu/NavMenu';
 export {Pagination} from './Pagination/Pagination';
 export {Selects} from './Select/Select';
+export {PopapDelete} from './PopapDelete/PopapDelete'
+export { Empty} from  './Empty/Empty'
+export {Spinner} from './Spinner/Spinner'
 
 
 //icons / imageSvg
