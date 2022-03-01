@@ -3,7 +3,7 @@ export interface IAddTeam {
     "foundationYear": number
     "division": string
     "conference": string
-    "avatarUrl": string
+    "imageUrl": string
 };
 
 export interface IGetTeams extends IAddTeam{
