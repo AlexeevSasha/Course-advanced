@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import styled from "styled-components";
-import noLogo from  '../../../../assets/images/no-logo-player.svg'
+import noLogo from  '../../../../assets/images/no-logo-player.svg';
+import {Link} from "react-router-dom";
 
 
 interface IProps {
@@ -11,9 +12,9 @@ interface IProps {
     team: number;
 }
 
-export const PlayerCard: FC<IProps> = ({logo, name,number, team}) => {
+export const PlayerCard: FC<IProps> = ({logo, name,number, team, id}) => {
     return (
-        <Flex>
+        <Flex to={`${id}`}>
             <Logo>
              <ImgContainer> <Img src={logo || noLogo} alt=""/></ImgContainer>
             </Logo>
@@ -26,7 +27,7 @@ export const PlayerCard: FC<IProps> = ({logo, name,number, team}) => {
 }
 
 
-const Flex = styled.div`
+const Flex = styled(Link)`
   display: flex;
   flex-direction: column;
   cursor: pointer;
