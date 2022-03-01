@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {IUserResponse} from "../../api/auth/authDto";
-import { loginAction, registerAction } from './authorizationAction'
+import { loginThunk, registerThunk } from './authorizationAction'
 
 interface IAuth {
     user: IUserResponse | null;
@@ -25,30 +25,30 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         //singIn
-        builder.addCase(loginAction.pending, (state) => {
+        builder.addCase(loginThunk.pending, (state) => {
             state.loadingAuth = true;
             state.errorAuth = false;
         });
-        builder.addCase(loginAction.fulfilled, (state, action) => {
+        builder.addCase(loginThunk.fulfilled, (state, action) => {
             state.loadingAuth = false;
             state.errorAuth = false;
             state.user = action.payload;
         });
-        builder.addCase(loginAction.rejected, (state) => {
+        builder.addCase(loginThunk.rejected, (state) => {
             state.loadingAuth = false;
             state.errorAuth = true;
         });
         //singUp
-        builder.addCase(registerAction.pending, (state) => {
+        builder.addCase(registerThunk.pending, (state) => {
             state.loadingAuth = true;
             state.errorAuth = false;
         });
-        builder.addCase(registerAction.fulfilled, (state, action) => {
+        builder.addCase(registerThunk.fulfilled, (state, action) => {
             state.loadingAuth = false;
             state.errorAuth = false;
             state.user = action.payload;
         });
-        builder.addCase(registerAction.rejected, (state) => {
+        builder.addCase(registerThunk.rejected, (state) => {
             state.loadingAuth = false;
             state.errorAuth = true;
         });
