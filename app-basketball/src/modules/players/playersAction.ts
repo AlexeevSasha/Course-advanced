@@ -3,72 +3,49 @@ import {addPlayers, getPlayerId, getPlayers, upDatePlayer, deletePlayer} from ".
 import {IAddPlayer, IGetPlayer} from "../../api/players/playersDto";
 
 
-
 interface IRest {
-    page? :number
-    pageSize?:  number,
-    name?:string;
+    page?: number
+    pageSize?: number,
+    name?: string;
     filterTeams?: string
 }
 
-export const getPlayersThunk  = createAsyncThunk(
+export const getPlayersThunk = createAsyncThunk(
     "players/getPlayers",
     async () => {
-        try {
-            const response = await getPlayers();
-            return response;
-        } catch (e: any) {
-            return new Error(e)
-            // return thunkApi.rejectWithValue(e.message)
-        }
+        const response = await getPlayers();
+        return response;
     },
 );
 
-export const getPlayerIdThunk  = createAsyncThunk(
+export const getPlayerIdThunk = createAsyncThunk(
     "players/getPlayerId",
-    async (id : number) => {
-        try {
-            const response = await getPlayerId(id);
-            return response;
-        } catch (e: any) {
-            return new Error(e)
-            // return thunkApi.rejectWithValue(e.message)
-        }
+    async (id: number) => {
+        const response = await getPlayerId(id);
+        return response;
     },
 );
-export const addPlayersThunk  = createAsyncThunk(
+export const addPlayersThunk = createAsyncThunk(
     "players/addPlayers",
-    async (data :IAddPlayer, thunkApi) => {
-        try {
+    async (data: IAddPlayer, thunkApi) => {
             const response = await addPlayers(data);
             return response;
-        } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
-        }
     },
 );
 
-export const editPlayersThunk  = createAsyncThunk(
+export const editPlayersThunk = createAsyncThunk(
     "players/editPlayers",
-    async (data :IGetPlayer, thunkApi) => {
-        try {
+    async (data: IGetPlayer, thunkApi) => {
             const response = await upDatePlayer(data);
             return response;
-        } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
-        }
     },
 );
 
-export const deletelayersThunk  = createAsyncThunk(
+export const deletelayersThunk = createAsyncThunk(
     "players/deletePlayers",
-    async (id :number, thunkApi) => {
-        try {
+    async (id: number, thunkApi) => {
             const response = await deletePlayer(id);
             return response;
-        } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
-        }
     },
 );
 
