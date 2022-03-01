@@ -13,3 +13,7 @@ export interface IAddPlayer {
 export interface IGetPlayer extends IAddPlayer{
     id: number;
 };
+
+export interface IGetPlayerResponse extends IGetPlayer{
+    teamName: string;
+};
