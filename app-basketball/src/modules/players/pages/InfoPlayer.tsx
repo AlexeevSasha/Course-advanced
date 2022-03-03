@@ -1,9 +1,9 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {PlayerInfo} from "../components/PlayerInfo/PlayerInfo";
 import {useAppDispatch} from "../../../core/redux/reduxType";
 import {useNavigate, useParams} from "react-router-dom";
 import {HeaderCardInfo, PopapDelete} from "../../../common/components";
-import {deletelayersThunk} from "../playersAction";
+import {deletePlayersThunk} from "../playersAction";
 
 export const InfoPlayer: FC = () => {
     const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ export const InfoPlayer: FC = () => {
     const [visible, setVisible] = useState<boolean>(false)
     const onHandlerClickYes = () => {
         setVisible(false);
-        dispatch(deletelayersThunk(Number(id)))
+        dispatch(deletePlayersThunk({id: Number(id), callback: () => navigate(-1)}))
     }
     const onEditTeam = () => navigate('edit')
     const onDeleteTeam = () => setVisible(true)
