@@ -5,28 +5,18 @@ import {signIn, signUp} from "../../api/auth/authService";
 
 export const registerThunk = createAsyncThunk(
     "auth/signUp",
-    async (data: ISignUp, thunkApi) => {
-        try {
+    async (data: ISignUp) => {
             const response = await signUp(data);
             localStorage.setItem("user", JSON.stringify(response));
             return response;
-        } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
-        }
-
     },
 );
 
 export const loginThunk = createAsyncThunk(
     "auth/signIn",
     async (data: ISignIn,thunkApi) => {
-        try {
             const response = await signIn(data);
             localStorage.setItem("user", JSON.stringify(response));
             return response;
-        } catch (e: any) {
-            return thunkApi.rejectWithValue(e.message)
-        }
-
     },
 );
