@@ -10,10 +10,17 @@ export interface IAddPlayer {
 };
 
 
-export interface IGetPlayer extends IAddPlayer{
+export interface IGetPlayer extends IAddPlayer {
     id: number;
 };
 
-export interface IGetPlayerResponse extends IGetPlayer{
+export interface IGetPlayerResponse extends IGetPlayer {
     teamName: string;
 };
+
+export interface IRest {
+    page?: number
+    pageSize?: number,
+    name?: string;
+    teamIds?: string;
+}
