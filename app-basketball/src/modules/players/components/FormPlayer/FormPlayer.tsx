@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from "react";
 import styled from "styled-components";
-import {InputFile, Input, ButtonCancel, Button, Selects} from "../../../../common/components";
+import {InputFile, Input, ButtonCancel, Button, Selects, BreadCrumbs, Notification} from "../../../../common/components";
 import {optionsPosition} from "../../../../common/components/Select/data";
 import {useNavigate} from "react-router-dom";
 import {useForm, Controller} from "react-hook-form";
@@ -19,15 +19,16 @@ interface IProps {
 export const FormPlayer: FC<IProps> = ({dataPlayer, isEditFlag}) => {
     const [imgSave, setImgSave] = useState('')
     const navigate = useNavigate();
+    const {errorPlayers} = useAppSelector(state => state.players)
     const {teamOption} = useAppSelector(state => state.teams);
     const dispatch = useAppDispatch();
     const {register, handleSubmit, control,watch,reset, formState: {errors}} = useForm<IAddPlayer>();
     const onSubmit = (data: IAddPlayer) => {
         const date =  new Date(data?.birthday).toISOString()
         if (isEditFlag) {
-            dispatch(editPlayersThunk({...data, birthday: date, id: Number(dataPlayer?.id), avatarUrl: imgSave})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
+            dispatch(editPlayersThunk({ data:{...data, birthday: date, id: Number(dataPlayer?.id), avatarUrl: imgSave}, callback: () => navigate(-1)}))
         } else {
-            dispatch(addPlayersThunk({...data, birthday:date, avatarUrl: imgSave })).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
+            dispatch(addPlayersThunk({data: {...data, birthday:date, avatarUrl: imgSave }, callback: () => navigate(-1)}))
         }
     };
 
@@ -39,7 +40,8 @@ export const FormPlayer: FC<IProps> = ({dataPlayer, isEditFlag}) => {
 
     return (
         <Wrapper>
-            <BreadCrumbs>BreadCrumbs</BreadCrumbs>
+          <Notification error={errorPlayers}/>
+            <BreadCrumbs/>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputFileContainer>
                     <InputFile  {...register('avatarUrl')} listFile={watch('avatarUrl')} imgHandler={setImgSave}/>
@@ -117,15 +119,7 @@ const Wrapper = styled.div`
   border-radius: 10px;
   padding-bottom: 48px;
 `
-const BreadCrumbs = styled.h4`
-  color: ${({theme}) => theme.colors.red};
-  font-weight: 500;
-  padding: 24px 0 0 32px;
-  cursor: pointer;
-  @media ${({theme}) => theme.media._768} {
-    padding: 16px 0 0 16px;
-  };
-`
+
 
 const Form = styled.form`
   position: relative;
