@@ -31,7 +31,6 @@ export const App = () => {
                     <Route path='players/:id' element={<InfoPlayer/>}/>
                     <Route path="players/:id/edit" element={<EditPlayer/>}/>
                     <Route path='players/addPlayer' element={<AddPlayer/>}/>
-
                 </Route>
             </Route>
             <Route path='*' element={<Error404/>}/>
