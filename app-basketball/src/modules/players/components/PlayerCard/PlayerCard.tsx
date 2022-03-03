@@ -1,7 +1,8 @@
-import React, {FC} from "react";
+import React, {FC, useEffect,  useState} from "react";
 import styled from "styled-components";
 import noLogo from  '../../../../assets/images/no-logo-player.svg';
 import {Link} from "react-router-dom";
+import {useAppSelector} from "../../../../core/redux/reduxType";
 
 
 interface IProps {
@@ -13,6 +14,11 @@ interface IProps {
 }
 
 export const PlayerCard: FC<IProps> = ({logo, name,number, team, id}) => {
+    const {teamOption} = useAppSelector(state => state.teams);
+    const [playerTeam, setPlayerTeam] = useState('')
+    useEffect(() => {
+        teamOption.find(el => el.value === team ? setPlayerTeam(el.label) : '')
+    }, [teamOption])
     return (
         <Flex to={`${id}`}>
             <Logo>
@@ -20,7 +26,7 @@ export const PlayerCard: FC<IProps> = ({logo, name,number, team, id}) => {
             </Logo>
             <CartItem>
                 <Name>{name}<Number>#{number}</Number></Name>
-                <Teams>{team || 'Название команды'}</Teams>
+                <Teams>{playerTeam || 'Название команды'}</Teams>
             </CartItem>
         </Flex>
     )
@@ -60,7 +66,7 @@ const Logo = styled.div`
 `
 
 const Img = styled.img`
-  width: 100%;
+  width: 90%;
   height: 90%;
   object-fit: cover;
 `
