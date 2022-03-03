@@ -12,6 +12,8 @@ export {Selects} from './Select/Select';
 export {PopapDelete} from './PopapDelete/PopapDelete'
 export { Empty} from  './Empty/Empty'
 export {Spinner} from './Spinner/Spinner'
+export {Notification} from './Notification/Notification'
+export {BreadCrumbs} from './BreadCrumbs/BreadCrumbs'
 
 
 //icons / imageSvg
