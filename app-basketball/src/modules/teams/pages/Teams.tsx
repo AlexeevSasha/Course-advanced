@@ -1,28 +1,48 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState,useCallback, ChangeEvent,useMemo} from 'react';
 import styled from "styled-components";
 import {TeamCard} from "../components/TeamCard/TeamCard";
-import {Search, Button, Pagination, Selects, Spinner} from "../../../common/components";
+import {Search, Button, Pagination, Selects, Spinner,Empty, Notification} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
+import {IOption} from "../../../common/components/Select/Select";
 import {getTeamsThunk} from "../teamsAction";
-import {Empty} from "../../../common/components/Empty/Empty";
+import {exampleTeamThunk} from "../../examples";
+
 
 export const Teams: FC = () => {
+
     const dispatch = useAppDispatch();
     const {teams, loadingTeams} = useAppSelector(state => state.teams)
-    useEffect(() => {
-        dispatch(getTeamsThunk())
+    const [name, setName] = useState('')
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(6)
+    const handlerPageChange = useCallback(({selected}: {selected: number}) : void => {
+        setPage(selected + 1)
     }, [])
+    const handlerNameChange= useCallback((e :ChangeEvent<HTMLInputElement> ):void => {
+        setName(e.target.value);
+    }, []);
+    const handlerPageSizeChange= useCallback((option: IOption):void => {
+        setPageSize(Number(option?.value));
+    }, []);
+    const pageCounts = useMemo(() => Math.ceil((teams?.count || 1) / pageSize), [teams?.count, pageSize])
+
+    useEffect(() => {
+        dispatch(exampleTeamThunk())
+        dispatch(getTeamsThunk({page, pageSize, name}))
+    }, [page, pageSize, name])
+
+
     return (
             <Flex>
                 <div>
                     <WrapperSearchaAndBtn>
-                        <Search/>
+                        <Search onChange={handlerNameChange}/>
                         <LinkStyles to='addTeam'><Button btnAdd>Add +</Button></LinkStyles>
                     </WrapperSearchaAndBtn>
                     {loadingTeams ? <SpinnerWrapper><Spinner/></SpinnerWrapper> :
-                        !teams?.count || !teams ? <Empty/> :  <GridContainer>
+                        !teams?.count || !teams ? <Empty isflag/> :  <GridContainer>
                             {teams?.data.map(({imageUrl, name, id, foundationYear}) => <TeamCard
                                 key={id}
                                 id={id}
@@ -33,8 +53,8 @@ export const Teams: FC = () => {
                     }
                 </div>
                 <WrapperPaginAndSelect>
-                    <Pagination pageCount={5} initialPage={1 - 1}/>
-                    <Selects options={optionsSize} defaultValue={optionsSize[0]} menuPlacement='top'/>
+                    <Pagination pageCount={pageCounts} initialPage={page - 1} onChange={handlerPageChange}/>
+                    <Selects options={optionsSize} defaultValue={optionsSize[0]} menuPlacement='top' onChange={handlerPageSizeChange}/>
                 </WrapperPaginAndSelect>
             </Flex>
     );
