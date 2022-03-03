@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {ChangeEvent, FC, useCallback, useEffect, useMemo, useState} from 'react';
 import styled from "styled-components";
 import {PlayerCard} from "../components/PlayerCard/PlayerCard";
 import {Search, Button, Pagination, Selects, Empty, Spinner} from "../../../common/components";
@@ -6,6 +6,8 @@ import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {getPlayersThunk } from "../playersAction";
+import {IOption} from "../../../common/components/Select/Select";
+import {teamOptionThunk} from "../../teams/teamsAction";
 
 
 
@@ -13,16 +15,38 @@ import {getPlayersThunk } from "../playersAction";
 export const Players: FC = () => {
     const dispatch = useAppDispatch();
     const {players, loadingPlayers} = useAppSelector(state => state.players)
+    const {teamOption} = useAppSelector(state => state.teams)
+    const [name, setName] = useState('')
+    const [teamIds, setTeamIds] = useState('');
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(6)
+    const handlerPageChange = useCallback(({selected}: {selected: number}) : void => {
+        setPage(selected + 1)
+    }, [])
+    const handlerNameChange= useCallback((e :ChangeEvent<HTMLInputElement> ):void => {
+        setName(e.target.value);
+    }, []);
+    const handlerPageSizeChange= useCallback((option: IOption):void => {
+        setPageSize(Number(option?.value));
+    }, []);
+    const handlerTeamIdsChange = useCallback((value: IOption[]) : void => {
+        const arr = value.map(el => `&TeamIds=${el.value}`)
+        setTeamIds(arr.join(''))
+    }, [])
+    const pageCounts = useMemo(() => Math.ceil((players?.count || 1) / pageSize), [players?.count, pageSize])
     useEffect(() => {
-        dispatch(getPlayersThunk())
-    }, [dispatch])
+        dispatch(getPlayersThunk({page, pageSize, name,teamIds}))
+    }, [page, pageSize, name,teamIds])
+    useEffect(() => {
+        dispatch(teamOptionThunk())
+    }, [])
     return (
         <Flex>
             <div>
                 <WrapperSearchaAndBtn>
                     <SearchAndSelect>
-                        <Search/>
-                        <Selects options={[]} isMulti/>
+                        <Search onChange={handlerNameChange}/>
+                        <Selects options={teamOption} isMulti onChange={handlerTeamIdsChange}/>
                     </SearchAndSelect>
                     <LinkStyles to='addPlayer'><Button btnAdd>Add +</Button></LinkStyles>
                 </WrapperSearchaAndBtn>
@@ -38,11 +62,10 @@ export const Players: FC = () => {
                     />)}
                     </GridContainer>
                 }
-
             </div>
             <WrapperPaginAndSelect>
-                <Pagination pageCount={5} initialPage={1 - 1}/>
-                <Selects options={optionsSize} defaultValue={optionsSize[0]} menuPlacement='top'/>
+                <Pagination pageCount={pageCounts} initialPage={page - 1} onChange={handlerPageChange}/>
+                <Selects options={optionsSize} defaultValue={optionsSize[0]} menuPlacement='top' onChange={handlerPageSizeChange}/>
             </WrapperPaginAndSelect>
         </Flex>
     );
