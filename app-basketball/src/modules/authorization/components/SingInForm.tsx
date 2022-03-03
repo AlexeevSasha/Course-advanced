@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from "react";
-import { Input, Button } from "../../../common/components";
+import { Input, Button, Notification } from "../../../common/components";
 import {Container,  FormContainer, Title, Form, Text, TextLink} from './style';
 import { useForm } from "react-hook-form";
 import {useNavigate} from "react-router-dom";
@@ -13,7 +13,7 @@ import {loginThunk} from "../authorizationAction";
 export const SingInForm: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { user} = useAppSelector(state => state.auth)
+    const { user, errorAuth} = useAppSelector(state => state.auth)
     const { register, handleSubmit, formState: { errors } } = useForm<IFormLogin>();
     const onSubmit =  (data: IFormLogin) => {
             dispatch(loginThunk(data))
@@ -22,6 +22,8 @@ export const SingInForm: FC = () => {
         if (user) navigate('/teams', { replace: true })
     }, [user])
     return (
+        <>
+            <Notification error={errorAuth}/>
             <Container >
                 <FormContainer >
                     <Title >Sign In</Title>
@@ -43,5 +45,6 @@ export const SingInForm: FC = () => {
                     </Text>
                 </FormContainer>
             </Container>
+            </>
     )
 }
