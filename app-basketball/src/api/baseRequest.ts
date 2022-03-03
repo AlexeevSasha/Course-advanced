@@ -1,8 +1,8 @@
 export const BASE_URL = 'http://dev.trainee.dex-it.ru/'
 
-const request = async (url : string, data: any, token : string | undefined) => {
-    const headersToken = token ? { Authorization: `Bearer ${token}`} : {}
-    const headersMultiPart = typeof data.body === 'string' ? { "Content-type" : "application/json;charset=utf-8"} : {}
+const request = async (url: string, data: any, token: string | undefined) => {
+    const headersToken = token ? {Authorization: `Bearer ${token}`} : {}
+    const headersMultiPart = typeof data.body === 'string' ? {"Content-type": "application/json;charset=utf-8"} : {}
 
     const response = await fetch(url, {
         ...data,
@@ -11,7 +11,6 @@ const request = async (url : string, data: any, token : string | undefined) => {
             ...headersMultiPart,
         },
     });
-
     if (response.ok) {
         if (response.headers.get('Content-Length') === '0') {
             return true
@@ -30,14 +29,14 @@ const request = async (url : string, data: any, token : string | undefined) => {
             throw new Error("Unauthorized user");
         }
         if (response.status === 409) throw new Error('Already exists');
-        throw {status: response.status}
+       else  throw {status: response.status}
     }
 
 }
 
 export const get = (url: string, token?: string) => request(`${BASE_URL}${url}`, {method: "GET"}, token)
 
-export const post = (url: string, body: string | FormData, token?: string ) => {
+export const post = (url: string, body: string | FormData, token?: string) => {
     return request(`${BASE_URL}${url}`, {method: "POST", body}, token)
 }
 export const put = (url: string, body: string, token: string) => {
