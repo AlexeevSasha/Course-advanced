@@ -1,19 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {addPlayers, getPlayerId, getPlayers, upDatePlayer, deletePlayer} from "../../api/players/playersService";
-import {IAddPlayer, IGetPlayer} from "../../api/players/playersDto";
+import {IAddPlayer, IGetPlayer, IRest} from "../../api/players/playersDto";
 
-
-interface IRest {
-    page?: number
-    pageSize?: number,
-    name?: string;
-    filterTeams?: string
-}
 
 export const getPlayersThunk = createAsyncThunk(
     "players/getPlayers",
-    async () => {
-        const response = await getPlayers();
+    async ({...rest} : IRest) => {
+        const response = await getPlayers(rest);
         return response;
     },
 );
@@ -27,25 +20,28 @@ export const getPlayerIdThunk = createAsyncThunk(
 );
 export const addPlayersThunk = createAsyncThunk(
     "players/addPlayers",
-    async (data: IAddPlayer, thunkApi) => {
-            const response = await addPlayers(data);
-            return response;
+    async ({data, callback}: { data: IAddPlayer, callback: () => void }) => {
+        const response = await addPlayers(data);
+        callback()
+        return response;
     },
 );
 
 export const editPlayersThunk = createAsyncThunk(
     "players/editPlayers",
-    async (data: IGetPlayer, thunkApi) => {
-            const response = await upDatePlayer(data);
-            return response;
+    async ({data, callback}: { data: IGetPlayer, callback: () => void }) => {
+        const response = await upDatePlayer(data);
+        callback()
+        return response;
     },
 );
 
-export const deletelayersThunk = createAsyncThunk(
+export const deletePlayersThunk = createAsyncThunk(
     "players/deletePlayers",
-    async (id: number, thunkApi) => {
-            const response = await deletePlayer(id);
-            return response;
+    async ({id, callback}: { id: number, callback: () => void }) => {
+        const response = await deletePlayer(id);
+        callback();
+        return response;
     },
 );
 
