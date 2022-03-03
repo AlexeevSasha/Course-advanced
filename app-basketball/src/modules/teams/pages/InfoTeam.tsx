@@ -12,7 +12,7 @@ export const InfoTeam: FC = () => {
     const [visible, setVisible] = useState<boolean>(false)
     const onHandlerClickYes = () => {
         setVisible(false);
-        dispatch(deleteTeamThunk(Number(id)))
+        dispatch(deleteTeamThunk({id: Number(id), callback: () => navigate(-1)}))
     }
     const onEditTeam = () => navigate('edit')
     const onDeleteTeam = () => setVisible(true)
