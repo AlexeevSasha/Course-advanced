@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useState} from "react";
 import styled from "styled-components";
-import {InputFile, Input, ButtonCancel, Button} from "../../../../common/components";
+import {InputFile, Input, ButtonCancel, Button, BreadCrumbs, Notification} from "../../../../common/components";
 import {useForm} from "react-hook-form";
 import {IAddTeam, IGetTeams} from "../../../../api/teams/teamsDto";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../../../core/redux/reduxType";
+import {useNavigate, useLocation} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
 import {editTeamThunk, addTeamThunk} from "../../teamsAction";
 
 interface IProps {
@@ -15,25 +15,26 @@ interface IProps {
 
 export const FormTeam: FC<IProps> = React.memo(({dataTeam, isEditFlag}) => {
     const [imgSave, setImgSave] = useState('')
+    const {errorTeams} = useAppSelector(state => state.teams)
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const {register, handleSubmit, watch,reset, formState: {errors}} = useForm<IAddTeam>();
 
     const onSubmit = (data: IAddTeam) => {
         if (isEditFlag) {
-            dispatch(editTeamThunk({...data, id: Number(dataTeam?.id)})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
+            dispatch(editTeamThunk({data :{...data, id: Number(dataTeam?.id)},callback : () => navigate(-1) } ))
         } else {
-            dispatch(addTeamThunk({...data, imageUrl: imgSave})).then(res => res.meta?.requestStatus === 'fulfilled' ? navigate(-1) : '')
+            dispatch(addTeamThunk({data: {...data, imageUrl: imgSave}, callback : () => navigate(-1) }))
         }
     };
 
     useEffect(() => {
         reset(dataTeam);
     }, [dataTeam]);
-
     return (
         <Wrapper>
-            <BreadCrumbs>BreadCrumbs</BreadCrumbs>
+            <Notification error={errorTeams}/>
+            <BreadCrumbs/>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputFileContainer>
                     <InputFile  {...register('imageUrl')} listFile={watch('imageUrl')} imgHandler={setImgSave}/>
@@ -79,15 +80,15 @@ const Wrapper = styled.div`
   border-radius: 10px;
   padding-bottom: 48px;
 `
-const BreadCrumbs = styled.h4`
-  color: ${({theme}) => theme.colors.red};
-  font-weight: 500;
-  padding: 24px 0 0 32px;
-  cursor: pointer;
-  @media ${({theme}) => theme.media._768} {
-    padding: 16px 0 0 16px;
-  };
-`
+// const BreadCrumbs = styled.h4`
+//   color: ${({theme}) => theme.colors.red};
+//   font-weight: 500;
+//   padding: 24px 0 0 32px;
+//   cursor: pointer;
+//   @media ${({theme}) => theme.media._768} {
+//     padding: 16px 0 0 16px;
+//   };
+// `
 
 const Form = styled.form`
   position: relative;
