@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {IOption} from "../../../common/components/Select/Select";
 import {getTeamsThunk} from "../teamsAction";
-import {exampleTeamThunk} from "../../examples";
 
 
 export const Teams: FC = () => {
@@ -29,7 +28,6 @@ export const Teams: FC = () => {
     const pageCounts = useMemo(() => Math.ceil((teams?.count || 1) / pageSize), [teams?.count, pageSize])
 
     useEffect(() => {
-        dispatch(exampleTeamThunk())
         dispatch(getTeamsThunk({page, pageSize, name}))
     }, [page, pageSize, name])
 
