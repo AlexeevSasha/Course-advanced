@@ -6,6 +6,12 @@ export interface IAddTeam {
     "imageUrl": string
 };
 
-export interface IGetTeams extends IAddTeam{
+export interface IGetTeams extends IAddTeam {
     id: number;
 };
+
+export interface IRest {
+    page?: number
+    pageSize?: number,
+    name?: string;
+}
