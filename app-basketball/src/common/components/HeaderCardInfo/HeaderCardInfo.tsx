@@ -1,6 +1,7 @@
 import React, {FC} from "react";
 import styled from "styled-components";
-import {CreateIcon, DeleteIcon} from "../";
+import {CreateIcon, DeleteIcon, BreadCrumbs} from "../";
+
 
 
 
@@ -13,7 +14,7 @@ interface IProps {
 export const HeaderCardInfo:FC<IProps> = ({onDelete, onEdit}) => {
     return (
             <HeaderCard>
-                <BreadCrumbsWrapper>Bread <SpanStyle>/</SpanStyle> Crumbs</BreadCrumbsWrapper>
+               <BreadCrumbs/>
                 <WrapperButton>
                     <Button>
                         <ImgButton onClick={onEdit}><CreateIcon/></ImgButton>
