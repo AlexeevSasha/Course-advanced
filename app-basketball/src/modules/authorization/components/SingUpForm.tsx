@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import { Input, Button, InputCheckbox } from "../../../common/components";
+import { Input, Button, InputCheckbox ,Notification} from "../../../common/components";
 import {Container,  FormContainer, Title, Form, Text, TextLink} from './style'
 import { useForm } from "react-hook-form";
 import {IFormRegistration} from "./interfaces";
@@ -11,7 +11,7 @@ import {registerThunk} from "../authorizationAction";
 export const SingUpForm: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { user} = useAppSelector(state => state.auth)
+    const { user, errorAuth} = useAppSelector(state => state.auth)
     const [isChecked, setIsChecked] = useState(false);
     const { register, handleSubmit,watch, formState: { errors } } = useForm<IFormRegistration>();
     const passwordCurrent = watch("password", "");
@@ -24,6 +24,7 @@ export const SingUpForm: FC = () => {
     }, [user])
     return (
             <Container >
+                <Notification error={errorAuth}/>
                 <FormContainer >
                     <Title >Sign Up</Title>
                     <Form onSubmit={handleSubmit(onSubmit)}>
