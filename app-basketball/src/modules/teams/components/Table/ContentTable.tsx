@@ -8,16 +8,16 @@ interface Props {
 }
 
 
-export const ContentTable : FC<Props> = ({data})=> {
-    const {name, number, avatarUrl, birthday, position, height, weight} = data ;
-    const  addDefaultSrc = (e:React.SyntheticEvent<HTMLImageElement, Event>) => {
+export const ContentTable: FC<Props> = ({data}) => {
+    const {name, number, avatarUrl, birthday, position, height, weight} = data;
+    const addDefaultSrc = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = noLogo;
     }
-    return  (
+    return (
         <tr>
             <td>{number}</td>
             <Flex>
-                <ImgWrapper><img src={avatarUrl || noLogo}  onError={addDefaultSrc} /></ImgWrapper>
+                <ImgWrapper><img src={avatarUrl || noLogo} onError={addDefaultSrc}/></ImgWrapper>
                 <div>
                     <div>
                         {name}
@@ -35,19 +35,19 @@ export const ContentTable : FC<Props> = ({data})=> {
 }
 
 const Position = styled.div`
-    color: ${({theme}) => theme.colors.lightGrey};
+  color: ${({theme}) => theme.colors.lightGrey};
 `
 const Flex = styled.td`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `
 const ImgWrapper = styled.div`
   position: relative;
-    width: 40px;
+  width: 40px;
   height: 40px;
   overflow: hidden;
   margin-right: 10px;
-  
+
   & > img {
     width: 100%;
     object-fit: cover;
@@ -57,9 +57,9 @@ const ImgWrapper = styled.div`
 `
 
 const TableTd = styled.td`
-   @media ${({theme}) => theme.media._980} {
-     display: none;
-   }
+  @media ${({theme}) => theme.media._980} {
+    display: none;
+  }
 `
 
 

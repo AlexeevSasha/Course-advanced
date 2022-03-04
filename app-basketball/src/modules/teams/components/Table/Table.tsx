@@ -8,10 +8,7 @@ import {getPlayersThunk} from "../../../players/playersAction";
 import {differenceInYears} from "date-fns";
 
 
-
-
-
-export const Table: FC  = () => {
+export const Table: FC = () => {
     const {id} = useParams()
     const [playerTeam, setPlayersTeam] = useState<IGetPlayer[] | []>([])
     const {players} = useAppSelector(state => state.players)
@@ -23,10 +20,10 @@ export const Table: FC  = () => {
 
     useEffect(() => {
         if (!players) return;
-        const newArr : IGetPlayer[] = [];
+        const newArr: IGetPlayer[] = [];
         players.data.forEach(el => {
             if (`${el.team}` === id) {
-                const age = differenceInYears(new Date().getTime(),new Date(el.birthday || '')) + ''
+                const age = differenceInYears(new Date().getTime(), new Date(el.birthday || '')) + ''
                 newArr.push({...el, birthday: age})
             }
         })
@@ -34,14 +31,13 @@ export const Table: FC  = () => {
     }, [dispatch, players])
 
 
-
-    return  (
-        <TableStyle  >
-            <col style={{ width: '5%' }} />
-            <col style={{ width: '65%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
-            <col style={{ width: '10%' }} />
+    return (
+        <TableStyle>
+            <col style={{width: '5%'}}/>
+            <col style={{width: '65%'}}/>
+            <col style={{width: '10%'}}/>
+            <col style={{width: '10%'}}/>
+            <col style={{width: '10%'}}/>
             <thead>
             <tr>
                 <th>#</th>
@@ -59,9 +55,9 @@ export const Table: FC  = () => {
 }
 
 const TableTh = styled.th`
-   @media ${({theme}) => theme.media._980} {
-     display: none;
-   }
+  @media ${({theme}) => theme.media._980} {
+    display: none;
+  }
 `
 
 const TableStyle = styled.table`
@@ -72,18 +68,20 @@ const TableStyle = styled.table`
   border-spacing: 0;
 
 
- & > thead > tr > th {
-    padding: 10px 32px ;
-   font-weight: 500;
-   font-size: 14px;
-   line-height: 24px;
-   color: ${({theme}) => theme.colors.grey};
-   @media ${({theme}) => theme.media._980} {
-     padding: 10px 16px ;
-   }
+  & > thead > tr > th {
+    padding: 10px 32px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    color: ${({theme}) => theme.colors.grey};
+    @media ${({theme}) => theme.media._980} {
+      padding: 10px 16px ;
+    }
   }
+
   & > thead > tr, & > tbody > tr {
     position: relative;
+
     &::after {
       content: '';
       position: absolute;
@@ -96,8 +94,9 @@ const TableStyle = styled.table`
       background: ${({theme}) => theme.colors.lightGrey};
     }
   }
+
   & > tbody > tr > td {
-    padding: 10px 32px ;
+    padding: 10px 32px;
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
@@ -106,8 +105,9 @@ const TableStyle = styled.table`
       padding: 10px 16px ;
     }
   }
-   th {
-     text-align: start;
+
+  th {
+    text-align: start;
   }
 `
 
