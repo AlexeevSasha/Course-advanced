@@ -1,4 +1,4 @@
-import React, {FC,useState} from 'react';
+import React, {FC, useState} from 'react';
 import {TeamInfo} from "../components/TeamInfo/TeamInfo";
 import {HeaderCardInfo, PopapDelete} from "../../../common/components";
 import {deleteTeamThunk} from "../teamsAction";
@@ -10,7 +10,7 @@ import styled from "styled-components";
 export const InfoTeam: FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const { id } = useParams();
+    const {id} = useParams();
     const [visible, setVisible] = useState<boolean>(false)
     const onHandlerClickYes = () => {
         setVisible(false);
@@ -23,7 +23,7 @@ export const InfoTeam: FC = () => {
         <div style={{position: 'relative'}}>
             <PopapDelete visible={visible} onClose={closeModal} onHandlerClickYes={onHandlerClickYes}/>
             <HeaderCardInfo onDelete={onDeleteTeam} onEdit={onEditTeam}/>
-        <TeamInfo/>
+            <TeamInfo/>
             <WrapperTable>
                 <Title>Roster</Title>
                 <Table/>
@@ -33,11 +33,11 @@ export const InfoTeam: FC = () => {
 }
 
 const WrapperTable = styled.div`
-    margin-top: 24px;
+  margin-top: 24px;
   background: white;
   border-radius: 10px;
   border: 0.5px solid ${({theme}) => theme.colors.lightGrey};
-  
+
 `
 
 
