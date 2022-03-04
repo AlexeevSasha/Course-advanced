@@ -6,7 +6,8 @@ const user = JSON.parse(`${localStorage.getItem("user")}`)
 
 export const getPlayers = ({...rest} : IRest) => {
     const { page, pageSize, name, teamIds} = rest;
-    return get(`api/Player/GetPlayers?Name=${name}${teamIds}&Page=${page}&PageSize=${pageSize}`, user.token)
+    const url = !name && !page && !pageSize && !teamIds ? 'api/Player/GetPlayers' : `api/Player/GetPlayers?Name=${name}${teamIds}&Page=${page}&PageSize=${pageSize}`
+    return get(url, user.token)
 }
 export const addPlayers = (data: IAddPlayer) => post('api/Player/Add', JSON.stringify(data), user.token)
 export const getPlayerId = (id: number) => get(`api/Player/Get?id=${id}`, user.token);

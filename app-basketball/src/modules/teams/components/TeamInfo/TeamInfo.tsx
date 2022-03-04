@@ -7,6 +7,7 @@ import {getTeamIdThunk} from "../../teamsAction";
 import {Spinner} from "../../../../common/components";
 
 
+
 export const TeamInfo: FC = () => {
     const dispatch = useAppDispatch()
     const {id} = useParams();

@@ -6,8 +6,8 @@ import playersSlice from "../../modules/players/playersSlice";
 
 export const store = configureStore({
     reducer: {
-      auth: authSlice,
-      teams: teamsSlice,
+        auth: authSlice,
+        teams: teamsSlice,
         players: playersSlice
     }
 })

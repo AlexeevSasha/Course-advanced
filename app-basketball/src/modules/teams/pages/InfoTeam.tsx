@@ -4,6 +4,8 @@ import {HeaderCardInfo, PopapDelete} from "../../../common/components";
 import {deleteTeamThunk} from "../teamsAction";
 import {useAppDispatch} from "../../../core/redux/reduxType";
 import {useNavigate, useParams} from "react-router-dom";
+import {Table} from "../components/Table/Table";
+import styled from "styled-components";
 
 export const InfoTeam: FC = () => {
     const navigate = useNavigate()
@@ -22,6 +24,32 @@ export const InfoTeam: FC = () => {
             <PopapDelete visible={visible} onClose={closeModal} onHandlerClickYes={onHandlerClickYes}/>
             <HeaderCardInfo onDelete={onDeleteTeam} onEdit={onEditTeam}/>
         <TeamInfo/>
+            <WrapperTable>
+                <Title>Roster</Title>
+                <Table/>
+            </WrapperTable>
         </div>
     );
 }
+
+const WrapperTable = styled.div`
+    margin-top: 24px;
+  background: white;
+  border-radius: 10px;
+  border: 0.5px solid ${({theme}) => theme.colors.lightGrey};
+  
+`
+
+
+const Title = styled.h3`
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25px;
+  color: ${({theme}) => theme.colors.grey};
+  padding: 14px 32px;
+  @media ${({theme}) => theme.media._980} {
+    padding: 14px 16px ;
+    font-size: 15px;
+    line-height: 20px;
+  }
+`
