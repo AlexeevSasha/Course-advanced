@@ -8,7 +8,7 @@ export const store = configureStore({
     reducer: {
         auth: authSlice,
         teams: teamsSlice,
-        players: playersSlice
+        players: playersSlice,
     }
 })
 
