@@ -8,13 +8,15 @@ import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {getPlayersThunk } from "../playersAction";
 import {IOption} from "../../../common/components/Select/Select";
 import {teamOptionThunk} from "../../teams/teamsAction";
+import {playersSelectros} from "../playersSlice";
 
 
 
 
 export const Players: FC = () => {
     const dispatch = useAppDispatch();
-    const {players, loadingPlayers} = useAppSelector(state => state.players)
+    const players = useAppSelector(playersSelectros.selectAll);
+    const {loadingPlayers, count} = useAppSelector(state => state.players)
     const {teamOption} = useAppSelector(state => state.teams)
     const [name, setName] = useState('')
     const [teamIds, setTeamIds] = useState('');
@@ -33,7 +35,7 @@ export const Players: FC = () => {
         const arr = value.map(el => `&TeamIds=${el.value}`)
         setTeamIds(arr.join(''))
     }, [])
-    const pageCounts = useMemo(() => Math.ceil((players?.count || 1) / pageSize), [players?.count, pageSize])
+    const pageCounts = useMemo(() => Math.ceil((count || 1) / pageSize), [count, pageSize])
     useEffect(() => {
         dispatch(getPlayersThunk({page, pageSize, name,teamIds}))
     }, [page, pageSize, name,teamIds])
@@ -51,8 +53,8 @@ export const Players: FC = () => {
                     <LinkStyles to='addPlayer'><Button btnAdd>Add +</Button></LinkStyles>
                 </WrapperSearchaAndBtn>
                 {loadingPlayers ? <SpinnerWrapper><Spinner/></SpinnerWrapper> :
-                    !players?.count || !players ? <Empty/> :<GridContainer>
-                {players?.data.map(({name, id, avatarUrl, number, team}) => <PlayerCard
+                    !count || !players ? <Empty/> :<GridContainer>
+                {players.map(({name, id, avatarUrl, number, team}) => <PlayerCard
                     key={id}
                     id={id}
                     name={name}
