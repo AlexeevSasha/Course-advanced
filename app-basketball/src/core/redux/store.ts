@@ -4,6 +4,8 @@ import teamsSlice from "../../modules/teams/teamsSlice";
 import playersSlice from "../../modules/players/playersSlice";
 
 
+
+
 export const store = configureStore({
     reducer: {
         auth: authSlice,
@@ -14,3 +16,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+
