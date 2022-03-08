@@ -1,18 +1,20 @@
 import React, {FC, useEffect, useState,useCallback, ChangeEvent,useMemo} from 'react';
 import styled from "styled-components";
 import {TeamCard} from "../components/TeamCard/TeamCard";
-import {Search, Button, Pagination, Selects, Spinner,Empty, Notification} from "../../../common/components";
+import {Search, Button, Pagination, Selects, Spinner,Empty} from "../../../common/components";
 import {optionsSize} from "../../../common/components/Select/data";
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../core/redux/reduxType";
 import {IOption} from "../../../common/components/Select/Select";
 import {getTeamsThunk} from "../teamsAction";
+import {teamsSelectros} from "../teamsSlice";
 
 
 export const Teams: FC = () => {
 
     const dispatch = useAppDispatch();
-    const {teams, loadingTeams} = useAppSelector(state => state.teams)
+    const teams = useAppSelector(teamsSelectros.selectAll)
+    const {count, loadingTeams} = useAppSelector(state => state.teams)
     const [name, setName] = useState('')
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(6)
@@ -25,7 +27,7 @@ export const Teams: FC = () => {
     const handlerPageSizeChange= useCallback((option: IOption):void => {
         setPageSize(Number(option?.value));
     }, []);
-    const pageCounts = useMemo(() => Math.ceil((teams?.count || 1) / pageSize), [teams?.count, pageSize])
+    const pageCounts = useMemo(() => Math.ceil((count || 1) / pageSize), [count, pageSize])
 
     useEffect(() => {
         dispatch(getTeamsThunk({page, pageSize, name}))
@@ -40,8 +42,8 @@ export const Teams: FC = () => {
                         <LinkStyles to='addTeam'><Button btnAdd>Add +</Button></LinkStyles>
                     </WrapperSearchaAndBtn>
                     {loadingTeams ? <SpinnerWrapper><Spinner/></SpinnerWrapper> :
-                        !teams?.count || !teams ? <Empty isflag/> :  <GridContainer>
-                            {teams?.data.map(({imageUrl, name, id, foundationYear}) => <TeamCard
+                        !count || !teams ? <Empty isflag/> :  <GridContainer>
+                            {teams?.map(({imageUrl, name, id, foundationYear}) => <TeamCard
                                 key={id}
                                 id={id}
                                 foundationYear={foundationYear}
