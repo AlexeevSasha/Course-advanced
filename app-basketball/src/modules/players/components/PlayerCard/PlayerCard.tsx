@@ -22,7 +22,11 @@ export const PlayerCard: FC<IProps> = ({logo, name,number, team, id}) => {
     return (
         <Flex to={`${id}`}>
             <Logo>
-             <ImgContainer> <Img src={logo || noLogo} alt=""/></ImgContainer>
+             <ImgContainer>
+                 <ImgDiv>
+                 <Img src={logo || noLogo} alt=""/>
+                 </ImgDiv>
+             </ImgContainer>
             </Logo>
             <CartItem>
                 <Name>{name}<Number>#{number}</Number></Name>
@@ -31,6 +35,7 @@ export const PlayerCard: FC<IProps> = ({logo, name,number, team, id}) => {
         </Flex>
     )
 }
+
 
 
 const Flex = styled(Link)`
@@ -51,12 +56,12 @@ const  ImgContainer = styled.div`
 const Logo = styled.div`
   display: flex;
   justify-content: center;
-  align-items: flex-end;
   background: linear-gradient(121.57deg, #707070 1.62%, #393939 81.02%);
   border-radius: 4px 4px 0 0;
   max-width: 365px;
   width: 100%;
   height: 280px;
+
   @media (max-width: 1100px) {
     height: 230px;
   }
@@ -64,11 +69,22 @@ const Logo = styled.div`
     height: 150px;
   }
 `
+const ImgDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  height: 90%;
+  max-width: 270px;
+
+  @media ${({theme}) => theme.media._480} {
+    max-width: 130px;
+  }
+`
 
 const Img = styled.img`
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
+  width: 100%;
+  object-fit: contain;
 `
 const CartItem = styled.div`
   display: flex;
