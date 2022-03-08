@@ -6,12 +6,13 @@ import {IGetPlayer} from "../../../../api/players/playersDto";
 import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
 import {getPlayersThunk} from "../../../players/playersAction";
 import {differenceInYears} from "date-fns";
+import {playersSelectros} from "../../../players/playersSlice";
 
 
 export const Table: FC = () => {
     const {id} = useParams()
     const [playerTeam, setPlayersTeam] = useState<IGetPlayer[] | []>([])
-    const {players} = useAppSelector(state => state.players)
+    const players = useAppSelector(playersSelectros.selectAll)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -21,7 +22,7 @@ export const Table: FC = () => {
     useEffect(() => {
         if (!players) return;
         const newArr: IGetPlayer[] = [];
-        players.data.forEach(el => {
+        players.forEach(el => {
             if (`${el.team}` === id) {
                 const age = differenceInYears(new Date().getTime(), new Date(el.birthday || '')) + ''
                 newArr.push({...el, birthday: age})
@@ -33,11 +34,13 @@ export const Table: FC = () => {
 
     return (
         <TableStyle>
-            <col style={{width: '5%'}}/>
-            <col style={{width: '65%'}}/>
-            <col style={{width: '10%'}}/>
-            <col style={{width: '10%'}}/>
-            <col style={{width: '10%'}}/>
+            <colgroup>
+                <col style={{width: '5%'}}/>
+                <col style={{width: '65%'}}/>
+                <col style={{width: '10%'}}/>
+                <col style={{width: '10%'}}/>
+                <col style={{width: '10%'}}/>
+            </colgroup>
             <thead>
             <tr>
                 <th>#</th>
