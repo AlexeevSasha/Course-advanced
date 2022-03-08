@@ -54,7 +54,8 @@ const Logo = styled.div`
 const Img = styled.img`
   max-width: 150px;
   width: 100%;
-  object-fit: cover;
+  height: 90%;
+  object-fit: contain;
   @media (max-width: 1100px) {
     width: 120px;
   }
