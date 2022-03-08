@@ -1,10 +1,11 @@
 import React, {FC, useEffect} from "react";
-import {useNavigate, useParams, Link} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import noLogo from '../../../../assets/images/no-logo-time.svg'
 import styled from "styled-components";
 import {useAppDispatch, useAppSelector} from "../../../../core/redux/reduxType";
 import {getTeamIdThunk} from "../../teamsAction";
 import {Spinner} from "../../../../common/components";
+import {teamsSelectros} from "../../teamsSlice";
 
 
 
@@ -47,7 +48,7 @@ const TeamWrapper = styled.div`
   border-radius: 0 0 10px 10px;
   align-items: center;
   height: 410px;
-  @media (max-width: 700px) {
+  @media ${({theme}) => theme.media._980} {
     flex-direction: column;
     height: auto;
   }
@@ -62,11 +63,15 @@ const ImgLogo = styled.div`
   img {
     width: 210px;
     height: 210px;
-    object-fit: cover;
-    @media (max-width: 768px) {
-      margin: 48px auto;
+    object-fit: contain;
+    @media ${({theme}) => theme.media._980} {
+      margin: 20px auto;
       width: 150px;
       height: 150px;
+    }
+    @media ${({theme}) => theme.media._480} {
+      width: 100px;
+      height: 100px;
     }
   }
 `
@@ -76,7 +81,7 @@ const Content = styled.div`
   align-items: flex-start;
   flex-direction: column;
   color: white;
-  @media (max-width: 700px) {
+  @media ${({theme}) => theme.media._980} {
     align-items: center;
     margin: 0;
   }
@@ -87,14 +92,14 @@ const Name = styled.div`
   font-size: 36px;
   line-height: 49px;
   margin-bottom: 40px;
-  @media (max-width: 500px) {
+  @media ${({theme}) => theme.media._480} {
     font-size: 20px;
     line-height: 25px;
   }
 `
 const Flex = styled.div`
   display: flex;
-  @media (max-width: 700px) {
+  @media ${({theme}) => theme.media._980} {
     flex-direction: column;
   }
 `
@@ -102,7 +107,7 @@ const Group = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 80px;
-  @media (max-width: 700px) {
+  @media ${({theme}) => theme.media._980} {
     align-items: center;
     margin: 0;
   }
@@ -111,7 +116,7 @@ const Title = styled.div`
   font-weight: 800;
   font-size: 24px;
   line-height: 33px;
-  @media (max-width: 500px) {
+  @media ${({theme}) => theme.media._480}{
     font-size: 17px;
     line-height: 20px;
   }
@@ -123,10 +128,10 @@ const Text = styled.div`
   line-height: 25px;
   margin-bottom: 50px;
   margin-top: 8px;
-  @media (max-width: 700px) {
+  @media ${({theme}) => theme.media._980} {
     margin-bottom: 32px;
   }
-  @media (max-width: 500px) {
+  @media ${({theme}) => theme.media._480} {
     font-size: 15px;
     line-height: 17px;
   }
