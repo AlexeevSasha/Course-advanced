@@ -1,5 +1,5 @@
 import React, {FC} from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import {Button, ButtonCancel} from '../';
 
 
@@ -12,7 +12,7 @@ interface ModalProps {
 export const PopapDelete :FC <ModalProps> = ({visible = false, onClose,onHandlerClickYes, player}) => {
     if (!visible) return null;
     return (
-        <PositionAbsolut onClick={onClose} >
+        <PositionFixed onClick={onClose} >
             <Wrapper onClick={e => e.stopPropagation()}>
                 <PopapTitle>{player ? 'Are you sure you want to delete this player?' : 'You definitely want to delete the command?'}</PopapTitle>
                 <ButtonFlexWrapper>
@@ -22,7 +22,7 @@ export const PopapDelete :FC <ModalProps> = ({visible = false, onClose,onHandler
                     <Button onClick={onHandlerClickYes}>Yes</Button>
                 </ButtonFlexWrapper>
             </Wrapper>
-        </PositionAbsolut>
+        </PositionFixed>
     )
 }
 
@@ -38,10 +38,25 @@ const PopapTitle = styled.h1`
     text-align: center;
   margin-bottom: 40px;
   color: ${({theme}) => theme.colors.darkGrey};
-    
+  
+  @media ${({theme}) => theme.media._480} {
+    font-size: 20px;
+  }
 `
 
-const PositionAbsolut = styled.div`
+const animate = keyframes`
+  0%{
+    transform: translateY(-150px);
+    opacity: 0;
+  }
+  
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`
+
+const PositionFixed = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
@@ -53,24 +68,7 @@ const PositionAbsolut = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.6);
-  animation-name: appear;
-  animation-duration: 300ms;
-  @keyframes appear {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @keyframes slide-in {
-    from {
-      transform: translateY(-150px);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
+
 `
 
 const Wrapper = styled.div`
@@ -86,9 +84,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  animation-name: slide-in;
-  animation-duration: 0.5s;
   border-radius: 4px;
+  animation: ${animate} 0.5s ease;
 `
 
 
