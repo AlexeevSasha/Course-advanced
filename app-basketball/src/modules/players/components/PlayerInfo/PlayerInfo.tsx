@@ -86,8 +86,7 @@ const ImgLogo = styled.div`
     max-width: 350px;
   }
   img {
-    width: 500px;
-    height: 400px;
+    width: 400px;
     object-fit: contain;
     @media  ${({theme}) => theme.media._980} {
       width: 300px;
