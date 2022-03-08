@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useMemo, useState} from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 interface IProps {
     error: string | undefined;
@@ -21,10 +21,20 @@ export const Notification: FC<IProps> =({error}) => {
 }
 
 
-
+const animate = keyframes`
+  0%{
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+`
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   background: ${({theme}) => theme.colors.lightRed};
   border-radius: 4px;
   color: white;
@@ -34,4 +44,5 @@ const Wrapper = styled.div`
   font-size: 16px;
   right: 50px;
   top: 50px;
+  animation: ${animate} 0.5s ease-out ;
 `
