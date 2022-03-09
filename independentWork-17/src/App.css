@@ -1,0 +1,61 @@
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-image: url("img/sky.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+    width: 700px;
+    margin: 50px auto;
+}
+
+.air {
+    width: 150px;
+    align-self: center;
+    justify-self: center;
+    grid-column-start: 3;
+    grid-row-start: 3;
+    animation: airAnimation 2s infinite linear;
+}
+
+
+@keyframes airAnimation {
+    0% {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+    12.5% {
+        grid-column-start: 2;
+        grid-row-start: 1;
+    }
+    25% {
+        grid-column-start: 3;
+        grid-row-start: 1;
+    }
+    37.5% {
+        grid-column-start: 1;
+        grid-row-start: 2;
+    }
+    50% {
+        grid-column-start: 2;
+        grid-row-start: 2;
+    }
+    62.5% {
+        grid-column-start: 3;
+        grid-row-start: 2;
+    }
+    75% {
+        grid-column-start: 1;
+        grid-row-start: 3;
+    }
+    87.5% {
+        grid-column-start: 2;
+        grid-row-start: 3;
+    }
+    100% {
+        grid-column-start: 3;
+        grid-row-start: 3;
+    }
+}
