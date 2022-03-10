@@ -2,33 +2,58 @@ import React, {forwardRef, useEffect, useState} from "react";
 import {InputFileIcon} from "../SVGConstans/SVG";
 import styled from "styled-components";
 import {saveImages} from "../../../api/images/imagesServise";
+import {Notification} from "../Notification/Notification";
 
-interface  IProps extends React.ComponentPropsWithoutRef<"input"> {
-    listFile?: FileList | undefined | string ;
+interface IProps extends React.ComponentPropsWithoutRef<"input"> {
+    listFile?: FileList | undefined | string;
     imgHandler?: any;
 }
 
-export const InputFile= forwardRef<HTMLInputElement, IProps>(({listFile,imgHandler,...attr }, ref) => {
+
+const fileControl = (file: File) => {
+    return new Promise((res: (value: string) => void) => {
+        const type = file.type.split('/')[1];
+        if (type !== 'png' && type !== 'jpeg') {
+            res('The photo only contains the format jpeg/png')
+        } else if ((file.size / 1024) / 1024 > 1) {
+            res('The size should not exceed 1 MB')
+        } else {
+            res('')
+        }
+    });
+};
+
+export const InputFile = forwardRef<HTMLInputElement, IProps>(({listFile, imgHandler, ...attr}, ref) => {
     const [image, setImage] = useState<string>('');
-    useEffect( () => {
+    const [errors, setErrors] = useState('')
+    useEffect(() => {
+        setErrors('');
         if (typeof listFile === "string") {
             setImage(listFile)
             imgHandler(listFile)
         } else if (listFile instanceof Object && listFile[0]) {
             setImage(URL.createObjectURL(listFile[0]));
             const imgUrl = async () => {
-                const url : string = await saveImages(listFile[0]);
-                imgHandler(url)
+                const chekImg: string = await fileControl(listFile[0])
+                if (chekImg) {
+                    setErrors(chekImg)
+                } else {
+                    const url: string = await saveImages(listFile[0]);
+                    imgHandler(url)
+                }
             }
             imgUrl()
-        }  else setImage('')
+        } else setImage('')
     }, [listFile])
     return (
-        <LabelStyle>
-            <IconStyle><InputFileIcon/></IconStyle>
-            {image ? <ImgStyle src={image}/> : ''}
-            <InputStyle type="file"   {...attr}  ref={ref}/>
-        </LabelStyle>
+        <>
+            <Notification error={errors}/>
+            <LabelStyle>
+                <IconStyle><InputFileIcon/></IconStyle>
+                {image ? <ImgStyle src={image}/> : ''}
+                <InputStyle type="file"   {...attr} ref={ref} accept={'image/png,image/jpeg'}/>
+            </LabelStyle>
+        </>
     )
 })
 const LabelStyle = styled.label`
