@@ -10,7 +10,7 @@ export const Notification: FC<IProps> =({error}) => {
 
     useEffect(() => {
             if (error) setVisible(true);
-            const timeout = setTimeout(() => setVisible(false), 3000);
+            const timeout = setTimeout(() => setVisible(false), 5000);
             return () => clearTimeout(timeout);
     }, [error])
 
